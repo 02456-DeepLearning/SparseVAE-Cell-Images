@@ -1,7 +1,7 @@
 import argparse, os
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
-from .datasets import CelebA, DSprites
+from datasets import CelebA, DSprites
 
 
 def get_argparser(description):
@@ -30,9 +30,9 @@ def get_argparser(description):
                         help='how many epochs to wait before storing training status')
     parser.add_argument('--sample-size', type=int, default=64, metavar='SS',
                         help='how many images to include in sample image')
-    parser.add_argument('--do-not-resume', action='store-true', default=False,
+    parser.add_argument('--do-not-resume', action='store_true', default=False,
                         help='retrains the model from scratch')
-    parser.add_argument('--normalize', action='store-true', default=False,
+    parser.add_argument('--normalize', action='store_true', default=False,
                         help='applies normalization')
     return parser
 
@@ -65,11 +65,11 @@ def get_datasets(dataset, batch_size, cuda, root='../data'):
 
     kwargs = {'num_workers': 1, 'pin_memory': True} if cuda else {}
         
-    train_loader = DataLoader(Dataset(dataset_path, train=True, download=False,
+    train_loader = DataLoader(Dataset(dataset_path, train=True, download=True,
                                       transform=transforms.ToTensor()), 
                               batch_size=batch_size, shuffle=True, **kwargs)
 
-    test_loader = DataLoader(Dataset(dataset_path, train=False, download=False,
+    test_loader = DataLoader(Dataset(dataset_path, train=False, download=True,
                                      transform=transforms.ToTensor()),
                              batch_size=batch_size, shuffle=True, **kwargs)
     print('Done!\n')

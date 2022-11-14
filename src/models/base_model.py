@@ -1,3 +1,4 @@
+import pdb
 import torch
 from torchvision.utils import save_image
 from pathlib import Path
@@ -5,7 +6,7 @@ from glob import glob
 import pandas as pd
 from tqdm import tqdm
 
-from ..logger import Logger
+from logger import Logger
 
 class VariationalBaseModel():
     def __init__(self, dataset, width, height, channels, latent_sz, 
@@ -16,7 +17,7 @@ class VariationalBaseModel():
         self.height = height
         self.channels = channels
         # before width * height * channels
-        self.input_sz = (channels, width, height)
+        self.input_sz = channels*width*height
         self.latent_sz = latent_sz
         
         self.lr = learning_rate
@@ -38,7 +39,7 @@ class VariationalBaseModel():
         if train:
             self.optimizer.zero_grad()
         output = self.model(data)
-        loss = self.loss_function(data, *output, train=train)
+        loss = self.loss_function(data, *output)
         if train:
             loss.backward()
             self.optimizer.step()
@@ -92,6 +93,7 @@ class VariationalBaseModel():
 
         logging_func('====> Epoch: {} Average loss: {:.4f}'.format(
               epoch, train_loss / len(train_loader.dataset)))
+        return train_loss / len(train_loader.dataset)
         
         
     # Returns the VLB for the test set
@@ -165,6 +167,7 @@ class VariationalBaseModel():
             train_loss = self.train(train_loader, epoch, logging_func)
             test_loss = self.test(test_loader, epoch, logging_func)
             # Store log
+            # pdb.set_trace()
             logger.scalar_summary(train_loss, test_loss, epoch)
             # Optional update
             self.update_()

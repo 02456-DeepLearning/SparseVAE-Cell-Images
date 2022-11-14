@@ -26,7 +26,6 @@ if __name__ == "__main__":
     vae = VariationalAutoEncoder(args.dataset, width, height, channels, 
                                  args.hidden_size, args.latent_size, args.lr, 
                                  device, args.log_interval, 
-                                 reload_model=not args.do_not_resume,
                                  normalize=args.normalize)
     vae.run_training(train_loader, test_loader, args.epochs,
                      args.report_interval, args.sample_size)
