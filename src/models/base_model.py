@@ -18,6 +18,7 @@ class VariationalBaseModel():
         self.channels = channels
         # before width * height * channels
         self.input_sz = channels*width*height
+        self.input_sz_tup = (channels,width,height)
         self.latent_sz = latent_sz
         
         self.lr = learning_rate
@@ -36,13 +37,19 @@ class VariationalBaseModel():
     
     
     def step(self, data, train=False):
+
         if train:
             self.optimizer.zero_grad()
         output = self.model(data)
+        recon_x, mu, logvar, logspike= output
+        #pdb.set_trace()
         loss = self.loss_function(data, *output)
+
         if train:
             loss.backward()
             self.optimizer.step()
+
+
         return loss.item()
     
     # TODO: Perform transformations inside DataLoader (extend datasets.MNIST)
@@ -174,6 +181,7 @@ class VariationalBaseModel():
             # For each report interval store model and save images
             if epoch % report_interval == 0:
                 with torch.no_grad():
+
                     ## Generate random samples
                     sample = torch.randn(sample_sz, self.latent_sz) \
                                   .to(self.device)

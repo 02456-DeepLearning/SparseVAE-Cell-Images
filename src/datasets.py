@@ -1,8 +1,12 @@
+import pdb 
+
 import os
 import numpy as np
 import pandas as pd
 from skimage import io
 from torch.utils.data import Dataset
+import glob
+import torch
 
 class CelebA(Dataset):
     def __init__(self, dataset_path, train=True, download=False,
@@ -66,5 +70,78 @@ class DSprites(Dataset):
         
         if self.transform:
             image = self.transform(image)
+        
+        return image, target
+
+
+class Cell(Dataset):
+    def __init__(self, dataset_path, train=True, download=False,
+                 transform=None, random_state=42, train_size=600_000,
+                 test_size=100_000):
+
+        
+        self.random_state = random_state
+        self.dataset_path = dataset_path
+        self.train_size = train_size
+        self.test_size = test_size
+        self.transform = transform
+        
+        # pandas uses relative path for some reason :D
+        self.df = pd.read_csv("../bbbc021/singlecell/metadata.csv")
+
+
+        self.image_paths = []
+
+        base_path = "../bbbc021/singlecell/singh_cp_pipeline_singlecell_images/"
+        helper_fn = lambda x,y: base_path+x+'/'+y
+        
+        self.image_paths = [helper_fn(x,y) for x,y in zip(self.df['Multi_Cell_Image_Name'], self.df['Single_Cell_Image_Name'])]
+
+        #print(np.load(self.image_paths[0]))
+
+        np.random.seed(random_state)
+        np.random.shuffle(self.image_paths)
+        # for i in range(len(df['Multi_Cell_Image_Name'])):
+        #     self.image_paths.append("SparseVAE-Cell-Images/bbbc021/singlecell/singh_cp_pipeline_singlecell_images/" + df['Multi_Cell_Image_Name'][i] + "/"+ df['Single_Cell_Image_Name'][i])
+
+        #  = glob.glob("SparseVAE-Cell-Images/bbbc021/singlecell/singh_cp_pipeline_singlecell_images/**/*.npy", recursive=True)
+    
+        
+        if train:
+            self.image_paths = self.image_paths[:train_size]
+        else:
+            self.image_paths = self.image_paths[-test_size:]
+        
+    def __len__(self):
+        return len(self.image_paths)
+    
+    def __getitem__(self, idx):
+        image, target = self.image_paths[idx], 0 # 0 -> not implemented yet
+        
+
+        image = np.load(image)
+        
+        #image = image.reshape(-1)
+        #image = image[:784].reshape([64,64])
+
+        if self.transform:
+            image = image.astype(np.float)
+
+            # image dimensions = (68, 68, 3)
+            image[:,:,0] /= np.max(image[:,:,0])
+            image[:,:,1] /= np.max(image[:,:,1])
+            image[:,:,2] /= np.max(image[:,:,2])
+
+            
+            image= np.transpose(image, (0, 1, 2)) # reshaped to channel, x, y
+
+            # todo add augmentation
+            image = self.transform(image.astype(np.float))
+
+            
+
+            # image = image.to(float)
+            # #print(type(image[0,0,0]))
+            image = image.type(torch.FloatTensor)
         
         return image, target

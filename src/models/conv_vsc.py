@@ -3,15 +3,15 @@ import numpy as np
 import torch
 from torch import nn, optim
 from torch.nn import functional as F
-
+import pdb
 from .base_model import VariationalBaseModel
 
 
 # Convolutional Variational Sparse Coding Model 
 class ConvVSC(nn.Module):
     
-    def __init__(self, input_sz: Tuple[int, int, int] = (3, 64, 64), 
-                 kernel_szs: List[int] = [32, 32, 64, 64], 
+    def __init__(self, input_sz: Tuple[int, int, int] = (3, 68, 68), 
+                 kernel_szs: List[int] = [32, 32, 68, 68], 
                  hidden_sz: int = 256,
                  latent_sz: int = 32,
                  c: float = 50,
@@ -20,7 +20,8 @@ class ConvVSC(nn.Module):
                  beta_delta: float = 0):
         
         super(ConvVSC, self).__init__()
-        self.input_sz = input_sz
+        self.input_sz_tup = input_sz
+
         self.channel_szs = [input_sz[0]] + kernel_szs 
         self.hidden_sz = hidden_sz
         self.latent_sz = latent_sz
@@ -58,18 +59,24 @@ class ConvVSC(nn.Module):
             nn.Linear(self.latent_sz, self.hidden_sz), nn.ReLU(),
             nn.Linear(self.hidden_sz, self.flat_conv_output_sz), nn.ReLU()
         )
-        
+        # output_size = strides * (input_size-1) + kernel_size - 2*padding
+        strides = [2,2,2,2]
+        paddings = [1,1,1,1]
         deconv_modules = [(
             nn.ConvTranspose2d(self.channel_szs[-i-1], 
                                self.channel_szs[-i-2],
-                               (4, 4), stride=2, padding=1),
+                               (8, 8) if i==len(kernel_szs)-1 else (4, 4),
+                               stride=strides[i], padding=paddings[i]
+                            ),
             nn.ReLU() if i < len(kernel_szs) - 1 else nn.Sigmoid()
             ) for i in range(len(kernel_szs))
         ]
-        
-        self.conv_decoder = nn.Sequential(*[
+        print(self.channel_szs,"********")
+        self.conv_decoder = nn.Sequential(*[ 
             layer for module in deconv_modules for layer in module
-        ])        
+        ])
+        #pdb.set_trace()
+
         
 
     def encode(self, x):
@@ -92,8 +99,11 @@ class ConvVSC(nn.Module):
     def decode(self, z):
         #Likelihood function
         features = self.latent_to_features(z)
+        #pdb.set_trace()
         features = features.view(-1, *self.conv_output_sz)
-        return self.conv_decoder(features)
+        y = self.conv_decoder(features)
+        #pdb.set_trace()
+        return y
 
     def forward(self, x):
         mu, logvar, logspike = self.encode(x)
@@ -119,9 +129,11 @@ class ConvolutionalVariationalSparseCoding(VariationalBaseModel):
         self.alpha = alpha
         self.hidden_sz = int(hidden_sz)
         self.kernel_szs = [int(ks) for ks in str(kernel_szs).split(',')]
-        
-        self.model = ConvVSC(self.input_sz, self.kernel_szs, self.hidden_sz,
+
+        self.model = ConvVSC(self.input_sz_tup, self.kernel_szs, self.hidden_sz,
                              latent_sz, **kwargs).to(device)
+
+        print(self.model)
         self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
         self.train_losses = []
         self.test_losses = []
@@ -130,7 +142,8 @@ class ConvolutionalVariationalSparseCoding(VariationalBaseModel):
     # Reconstruction + KL divergence losses summed over all elements of batch
     def loss_function(self, x, recon_x, mu, logvar, logspike, train=False):
         # Reconstruction term sum (mean?) per batch
-        flat_input_sz = np.prod(self.input_sz)
+        flat_input_sz = np.prod(self.input_sz_tup)
+        #pdb.set_trace()
         BCE = F.binary_cross_entropy(recon_x.view(-1, flat_input_sz), 
                                      x.view(-1, flat_input_sz),
                                      size_average = False)

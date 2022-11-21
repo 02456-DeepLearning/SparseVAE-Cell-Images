@@ -1,3 +1,5 @@
+import pdb
+
 import torch
 from torch import nn, optim
 from torch.nn import functional as F
@@ -26,6 +28,7 @@ class VAE(nn.Module):
 
     def encode(self, x):
         #Recognition function
+        # print("****",x,type(x),"****")
         h1 = F.relu(self.fc1(x))
         for fc in self.fc1n:
             h1 = F.relu(fc(h1))
@@ -44,6 +47,7 @@ class VAE(nn.Module):
         return torch.sigmoid(self.fc4(h3))
 
     def forward(self, x):
+        # pdb.set_trace()
         mu, logvar = self.encode(x)
         z = self.reparameterize(mu, logvar)
         return self.decode(z), mu, logvar
@@ -61,6 +65,7 @@ class VariationalAutoEncoder(VariationalBaseModel):
     
     # Reconstruction + KL divergence losses summed over all elements of batch
     def loss_function(self, x, recon_x, mu, logvar):
+        # pdb.set_trace()
         # Reconstruction term sum (mean?) per batch
         BCE = F.binary_cross_entropy(recon_x, x.view(-1, self.input_sz), 
                                      size_average = False)
