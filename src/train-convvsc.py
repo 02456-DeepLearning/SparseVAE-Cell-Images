@@ -2,6 +2,7 @@ import torch
 import pdb
 from utils import get_argparser, get_datasets
 from models.conv_vsc import ConvolutionalVariationalSparseCoding
+from models.enc_classifier import ClassifierModelFull
 
 if __name__ == "__main__":    
     parser = get_argparser('ConvVSC Example')

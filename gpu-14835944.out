@@ -1,0 +1,313 @@
+Tue Nov 22 20:35:53 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 520.61.05    Driver Version: 520.61.05    CUDA Version: 11.8     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  Tesla V100-PCIE...  On   | 00000000:58:00.0 Off |                    0 |
+| N/A   32C    P0    27W / 250W |      0MiB / 32768MiB |      0%   E. Process |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+ConvVSC Baseline Experiments
+
+Using cuda device...
+Loading cell dataset...
+Done!
+
+[3, 32, 32, 68, 68] ********
+ConvVSC(
+  (conv_encoder): Sequential(
+    (0): Conv2d(3, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): ReLU()
+    (2): Conv2d(32, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (3): ReLU()
+    (4): Conv2d(32, 68, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (5): ReLU()
+    (6): Conv2d(68, 68, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (7): ReLU()
+  )
+  (features_to_hidden): Sequential(
+    (0): Linear(in_features=1088, out_features=400, bias=True)
+    (1): ReLU()
+  )
+  (fc_mean): Linear(in_features=400, out_features=200, bias=True)
+  (fc_logvar): Linear(in_features=400, out_features=200, bias=True)
+  (fc_logspike): Linear(in_features=400, out_features=200, bias=True)
+  (latent_to_features): Sequential(
+    (0): Linear(in_features=200, out_features=400, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=400, out_features=1088, bias=True)
+    (3): ReLU()
+  )
+  (conv_decoder): Sequential(
+    (0): ConvTranspose2d(68, 68, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): ReLU()
+    (2): ConvTranspose2d(68, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (3): ReLU()
+    (4): ConvTranspose2d(32, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (5): ReLU()
+    (6): ConvTranspose2d(32, 3, kernel_size=(8, 8), stride=(2, 2), padding=(1, 1))
+    (7): Sigmoid()
+  )
+)
+Training ConvVSC model...
+Train Epoch: 1 [0/70668 (0%)]	Loss: 9607.295898
+Train Epoch: 1 [3200/70668 (5%)]	Loss: 8719.042969
+Train Epoch: 1 [6400/70668 (9%)]	Loss: 8357.757812
+Train Epoch: 1 [9600/70668 (14%)]	Loss: 8247.057617
+Train Epoch: 1 [12800/70668 (18%)]	Loss: 8390.924805
+Train Epoch: 1 [16000/70668 (23%)]	Loss: 8133.640137
+Train Epoch: 1 [19200/70668 (27%)]	Loss: 8317.081055
+Train Epoch: 1 [22400/70668 (32%)]	Loss: 8395.697266
+Train Epoch: 1 [25600/70668 (36%)]	Loss: 7939.429688
+Train Epoch: 1 [28800/70668 (41%)]	Loss: 7979.064453
+Train Epoch: 1 [32000/70668 (45%)]	Loss: 8146.346191
+Train Epoch: 1 [35200/70668 (50%)]	Loss: 8033.111816
+Train Epoch: 1 [38400/70668 (54%)]	Loss: 8191.782715
+Train Epoch: 1 [41600/70668 (59%)]	Loss: 7957.106445
+Train Epoch: 1 [44800/70668 (63%)]	Loss: 8166.908203
+Train Epoch: 1 [48000/70668 (68%)]	Loss: 8155.071777
+Train Epoch: 1 [51200/70668 (72%)]	Loss: 8095.854004
+Train Epoch: 1 [54400/70668 (77%)]	Loss: 8128.830078
+Train Epoch: 1 [57600/70668 (81%)]	Loss: 8224.749023
+Train Epoch: 1 [60800/70668 (86%)]	Loss: 7917.520996
+Train Epoch: 1 [64000/70668 (91%)]	Loss: 7770.782715
+Train Epoch: 1 [67200/70668 (95%)]	Loss: 8087.409180
+Train Epoch: 1 [70400/70668 (100%)]	Loss: 8138.192871
+====> Epoch: 1 Average loss: 8188.7297
+====> Test set loss: 7987.5287 - VLB-ConvVSC : 255528.6005
+Train Epoch: 2 [0/70668 (0%)]	Loss: 7755.721680
+Train Epoch: 2 [3200/70668 (5%)]	Loss: 7750.235840
+Train Epoch: 2 [6400/70668 (9%)]	Loss: 8002.379883
+Train Epoch: 2 [9600/70668 (14%)]	Loss: 7575.392578
+Train Epoch: 2 [12800/70668 (18%)]	Loss: 8021.866699
+Train Epoch: 2 [16000/70668 (23%)]	Loss: 7467.959473
+Train Epoch: 2 [19200/70668 (27%)]	Loss: 7782.987793
+Train Epoch: 2 [22400/70668 (32%)]	Loss: 7893.367188
+Train Epoch: 2 [25600/70668 (36%)]	Loss: 8284.473633
+Train Epoch: 2 [28800/70668 (41%)]	Loss: 7927.332520
+Train Epoch: 2 [32000/70668 (45%)]	Loss: 8054.068848
+Train Epoch: 2 [35200/70668 (50%)]	Loss: 8031.591309
+Train Epoch: 2 [38400/70668 (54%)]	Loss: 7878.554199
+Train Epoch: 2 [41600/70668 (59%)]	Loss: 7809.075195
+Train Epoch: 2 [44800/70668 (63%)]	Loss: 7866.104980
+Train Epoch: 2 [48000/70668 (68%)]	Loss: 7936.048828
+Train Epoch: 2 [51200/70668 (72%)]	Loss: 8019.002441
+Train Epoch: 2 [54400/70668 (77%)]	Loss: 8014.862793
+Train Epoch: 2 [57600/70668 (81%)]	Loss: 7944.562500
+Train Epoch: 2 [60800/70668 (86%)]	Loss: 7689.740234
+Train Epoch: 2 [64000/70668 (91%)]	Loss: 7737.387695
+Train Epoch: 2 [67200/70668 (95%)]	Loss: 8103.811035
+Train Epoch: 2 [70400/70668 (100%)]	Loss: 8220.547852
+====> Epoch: 2 Average loss: 7920.4914
+====> Test set loss: 7900.2340 - VLB-ConvVSC : 252735.9599
+Train Epoch: 3 [0/70668 (0%)]	Loss: 8211.115234
+Train Epoch: 3 [3200/70668 (5%)]	Loss: 7906.418945
+Train Epoch: 3 [6400/70668 (9%)]	Loss: 7700.900391
+Train Epoch: 3 [9600/70668 (14%)]	Loss: 7785.815430
+Train Epoch: 3 [12800/70668 (18%)]	Loss: 8080.607422
+Train Epoch: 3 [16000/70668 (23%)]	Loss: 7792.159180
+Train Epoch: 3 [19200/70668 (27%)]	Loss: 7740.581543
+Train Epoch: 3 [22400/70668 (32%)]	Loss: 8039.853027
+Train Epoch: 3 [25600/70668 (36%)]	Loss: 7572.234375
+Train Epoch: 3 [28800/70668 (41%)]	Loss: 7811.916992
+Train Epoch: 3 [32000/70668 (45%)]	Loss: 7877.676270
+Train Epoch: 3 [35200/70668 (50%)]	Loss: 7878.678223
+Train Epoch: 3 [38400/70668 (54%)]	Loss: 7836.427246
+Train Epoch: 3 [41600/70668 (59%)]	Loss: 7693.452637
+Train Epoch: 3 [44800/70668 (63%)]	Loss: 8005.637695
+Train Epoch: 3 [48000/70668 (68%)]	Loss: 7862.709961
+Train Epoch: 3 [51200/70668 (72%)]	Loss: 7830.803711
+Train Epoch: 3 [54400/70668 (77%)]	Loss: 7935.312988
+Train Epoch: 3 [57600/70668 (81%)]	Loss: 7964.988770
+Train Epoch: 3 [60800/70668 (86%)]	Loss: 7672.286133
+Train Epoch: 3 [64000/70668 (91%)]	Loss: 8041.478027
+Train Epoch: 3 [67200/70668 (95%)]	Loss: 7918.120117
+Train Epoch: 3 [70400/70668 (100%)]	Loss: 7976.023926
+====> Epoch: 3 Average loss: 7877.0006
+====> Test set loss: 7867.2701 - VLB-ConvVSC : 251681.4144
+Train Epoch: 4 [0/70668 (0%)]	Loss: 7856.667969
+Train Epoch: 4 [3200/70668 (5%)]	Loss: 7576.760742
+Train Epoch: 4 [6400/70668 (9%)]	Loss: 7796.257812
+Train Epoch: 4 [9600/70668 (14%)]	Loss: 7828.067871
+Train Epoch: 4 [12800/70668 (18%)]	Loss: 7633.418945
+Train Epoch: 4 [16000/70668 (23%)]	Loss: 7941.812988
+Train Epoch: 4 [19200/70668 (27%)]	Loss: 8004.985352
+Train Epoch: 4 [22400/70668 (32%)]	Loss: 7993.662109
+Train Epoch: 4 [25600/70668 (36%)]	Loss: 7767.508301
+Train Epoch: 4 [28800/70668 (41%)]	Loss: 7816.841797
+Train Epoch: 4 [32000/70668 (45%)]	Loss: 7913.653809
+Train Epoch: 4 [35200/70668 (50%)]	Loss: 7943.990234
+Train Epoch: 4 [38400/70668 (54%)]	Loss: 7761.086426
+Train Epoch: 4 [41600/70668 (59%)]	Loss: 7589.640625
+Train Epoch: 4 [44800/70668 (63%)]	Loss: 7938.116699
+Train Epoch: 4 [48000/70668 (68%)]	Loss: 7495.280273
+Train Epoch: 4 [51200/70668 (72%)]	Loss: 7935.421387
+Train Epoch: 4 [54400/70668 (77%)]	Loss: 8183.174805
+Train Epoch: 4 [57600/70668 (81%)]	Loss: 7878.145508
+Train Epoch: 4 [60800/70668 (86%)]	Loss: 7959.543945
+Train Epoch: 4 [64000/70668 (91%)]	Loss: 7859.486816
+Train Epoch: 4 [67200/70668 (95%)]	Loss: 8017.752441
+Train Epoch: 4 [70400/70668 (100%)]	Loss: 7977.549316
+====> Epoch: 4 Average loss: 7852.6344
+====> Test set loss: 7856.6223 - VLB-ConvVSC : 251340.7794
+Train Epoch: 5 [0/70668 (0%)]	Loss: 7489.663086
+Train Epoch: 5 [3200/70668 (5%)]	Loss: 8048.856445
+Train Epoch: 5 [6400/70668 (9%)]	Loss: 7678.354980
+Train Epoch: 5 [9600/70668 (14%)]	Loss: 7855.377441
+Train Epoch: 5 [12800/70668 (18%)]	Loss: 8042.044434
+Train Epoch: 5 [16000/70668 (23%)]	Loss: 7915.365723
+Train Epoch: 5 [19200/70668 (27%)]	Loss: 8129.036621
+Train Epoch: 5 [22400/70668 (32%)]	Loss: 7848.364258
+Train Epoch: 5 [25600/70668 (36%)]	Loss: 7833.258301
+Train Epoch: 5 [28800/70668 (41%)]	Loss: 7552.147949
+Train Epoch: 5 [32000/70668 (45%)]	Loss: 7661.239258
+Train Epoch: 5 [35200/70668 (50%)]	Loss: 8127.806152
+Train Epoch: 5 [38400/70668 (54%)]	Loss: 7741.467773
+Train Epoch: 5 [41600/70668 (59%)]	Loss: 7858.770508
+Train Epoch: 5 [44800/70668 (63%)]	Loss: 7788.852051
+Train Epoch: 5 [48000/70668 (68%)]	Loss: 7930.539062
+Train Epoch: 5 [51200/70668 (72%)]	Loss: 7815.281738
+Train Epoch: 5 [54400/70668 (77%)]	Loss: 7913.803711
+Train Epoch: 5 [57600/70668 (81%)]	Loss: 8043.535156
+Train Epoch: 5 [60800/70668 (86%)]	Loss: 7987.884766
+Train Epoch: 5 [64000/70668 (91%)]	Loss: 7933.430664
+Train Epoch: 5 [67200/70668 (95%)]	Loss: 7854.721680
+Train Epoch: 5 [70400/70668 (100%)]	Loss: 7438.261230
+====> Epoch: 5 Average loss: 7837.7307
+====> Test set loss: 7848.7932 - VLB-ConvVSC : 251090.3204
+Train Epoch: 6 [0/70668 (0%)]	Loss: 7786.415527
+Train Epoch: 6 [3200/70668 (5%)]	Loss: 8073.909180
+Train Epoch: 6 [6400/70668 (9%)]	Loss: 7919.110840
+Train Epoch: 6 [9600/70668 (14%)]	Loss: 7698.502441
+Train Epoch: 6 [12800/70668 (18%)]	Loss: 7797.737305
+Train Epoch: 6 [16000/70668 (23%)]	Loss: 7785.506348
+Train Epoch: 6 [19200/70668 (27%)]	Loss: 7732.868652
+Train Epoch: 6 [22400/70668 (32%)]	Loss: 7829.542480
+Train Epoch: 6 [25600/70668 (36%)]	Loss: 7727.707031
+Train Epoch: 6 [28800/70668 (41%)]	Loss: 7558.908203
+Train Epoch: 6 [32000/70668 (45%)]	Loss: 7705.877930
+Train Epoch: 6 [35200/70668 (50%)]	Loss: 7825.408691
+Train Epoch: 6 [38400/70668 (54%)]	Loss: 8105.150391
+Train Epoch: 6 [41600/70668 (59%)]	Loss: 7835.957031
+Train Epoch: 6 [44800/70668 (63%)]	Loss: 7625.112305
+Train Epoch: 6 [48000/70668 (68%)]	Loss: 7875.780273
+Train Epoch: 6 [51200/70668 (72%)]	Loss: 7856.727539
+Train Epoch: 6 [54400/70668 (77%)]	Loss: 7949.458984
+Train Epoch: 6 [57600/70668 (81%)]	Loss: 7729.381348
+Train Epoch: 6 [60800/70668 (86%)]	Loss: 7945.791992
+Train Epoch: 6 [64000/70668 (91%)]	Loss: 7849.624512
+Train Epoch: 6 [67200/70668 (95%)]	Loss: 7672.684570
+Train Epoch: 6 [70400/70668 (100%)]	Loss: 7841.642090
+====> Epoch: 6 Average loss: 7826.9243
+====> Test set loss: 7829.6945 - VLB-ConvVSC : 250479.3357
+Train Epoch: 7 [0/70668 (0%)]	Loss: 7656.246582
+Train Epoch: 7 [3200/70668 (5%)]	Loss: 7921.675781
+Train Epoch: 7 [6400/70668 (9%)]	Loss: 7988.449219
+Train Epoch: 7 [9600/70668 (14%)]	Loss: 7822.329590
+Train Epoch: 7 [12800/70668 (18%)]	Loss: 7956.676270
+Train Epoch: 7 [16000/70668 (23%)]	Loss: 7978.528809
+Train Epoch: 7 [19200/70668 (27%)]	Loss: 7672.666992
+Train Epoch: 7 [22400/70668 (32%)]	Loss: 7955.561523
+Train Epoch: 7 [25600/70668 (36%)]	Loss: 7730.266602
+Train Epoch: 7 [28800/70668 (41%)]	Loss: 7814.926270
+Train Epoch: 7 [32000/70668 (45%)]	Loss: 7879.637695
+Train Epoch: 7 [35200/70668 (50%)]	Loss: 7535.399902
+Train Epoch: 7 [38400/70668 (54%)]	Loss: 7893.475586
+Train Epoch: 7 [41600/70668 (59%)]	Loss: 7801.471191
+Train Epoch: 7 [44800/70668 (63%)]	Loss: 7769.991211
+Train Epoch: 7 [48000/70668 (68%)]	Loss: 7882.140625
+Train Epoch: 7 [51200/70668 (72%)]	Loss: 7902.518555
+Train Epoch: 7 [54400/70668 (77%)]	Loss: 7857.611816
+Train Epoch: 7 [57600/70668 (81%)]	Loss: 7903.015625
+Train Epoch: 7 [60800/70668 (86%)]	Loss: 7712.694336
+Train Epoch: 7 [64000/70668 (91%)]	Loss: 8087.951172
+Train Epoch: 7 [67200/70668 (95%)]	Loss: 7850.746094
+Train Epoch: 7 [70400/70668 (100%)]	Loss: 7958.153320
+====> Epoch: 7 Average loss: 7819.4851
+====> Test set loss: 7821.3181 - VLB-ConvVSC : 250211.3666
+Train Epoch: 8 [0/70668 (0%)]	Loss: 7861.495605
+Train Epoch: 8 [3200/70668 (5%)]	Loss: 7876.078613
+Train Epoch: 8 [6400/70668 (9%)]	Loss: 8010.672363
+Train Epoch: 8 [9600/70668 (14%)]	Loss: 7646.514160
+Train Epoch: 8 [12800/70668 (18%)]	Loss: 7700.785645
+Train Epoch: 8 [16000/70668 (23%)]	Loss: 7870.379395
+Train Epoch: 8 [19200/70668 (27%)]	Loss: 7889.930176
+Train Epoch: 8 [22400/70668 (32%)]	Loss: 7712.584473
+Train Epoch: 8 [25600/70668 (36%)]	Loss: 7639.734375
+Train Epoch: 8 [28800/70668 (41%)]	Loss: 7730.746582
+Train Epoch: 8 [32000/70668 (45%)]	Loss: 7984.497559
+Train Epoch: 8 [35200/70668 (50%)]	Loss: 7778.330566
+Train Epoch: 8 [38400/70668 (54%)]	Loss: 7874.549805
+Train Epoch: 8 [41600/70668 (59%)]	Loss: 7881.198730
+Train Epoch: 8 [44800/70668 (63%)]	Loss: 7835.032715
+Train Epoch: 8 [48000/70668 (68%)]	Loss: 7786.042480
+Train Epoch: 8 [51200/70668 (72%)]	Loss: 7520.833984
+Train Epoch: 8 [54400/70668 (77%)]	Loss: 7842.325195
+Train Epoch: 8 [57600/70668 (81%)]	Loss: 7875.753418
+Train Epoch: 8 [60800/70668 (86%)]	Loss: 7739.354004
+Train Epoch: 8 [64000/70668 (91%)]	Loss: 7744.603516
+Train Epoch: 8 [67200/70668 (95%)]	Loss: 7617.747559
+Train Epoch: 8 [70400/70668 (100%)]	Loss: 7787.208008
+====> Epoch: 8 Average loss: 7813.2123
+====> Test set loss: 7815.0404 - VLB-ConvVSC : 250010.5359
+Train Epoch: 9 [0/70668 (0%)]	Loss: 7628.375488
+Train Epoch: 9 [3200/70668 (5%)]	Loss: 7671.285645
+Train Epoch: 9 [6400/70668 (9%)]	Loss: 7743.208008
+Train Epoch: 9 [9600/70668 (14%)]	Loss: 8086.006348
+Train Epoch: 9 [12800/70668 (18%)]	Loss: 7779.484863
+Train Epoch: 9 [16000/70668 (23%)]	Loss: 7887.545410
+Train Epoch: 9 [19200/70668 (27%)]	Loss: 7757.735840
+Train Epoch: 9 [22400/70668 (32%)]	Loss: 7848.708984
+Train Epoch: 9 [25600/70668 (36%)]	Loss: 7916.977051
+Train Epoch: 9 [28800/70668 (41%)]	Loss: 7789.986816
+Train Epoch: 9 [32000/70668 (45%)]	Loss: 7805.362793
+Train Epoch: 9 [35200/70668 (50%)]	Loss: 7538.573730
+Train Epoch: 9 [38400/70668 (54%)]	Loss: 7712.983398
+Train Epoch: 9 [41600/70668 (59%)]	Loss: 7517.709473
+Train Epoch: 9 [44800/70668 (63%)]	Loss: 7599.772461
+Train Epoch: 9 [48000/70668 (68%)]	Loss: 8128.898926
+Train Epoch: 9 [51200/70668 (72%)]	Loss: 7880.787109
+Train Epoch: 9 [54400/70668 (77%)]	Loss: 8018.969727
+Train Epoch: 9 [57600/70668 (81%)]	Loss: 7832.423340
+Train Epoch: 9 [60800/70668 (86%)]	Loss: 7838.739746
+Train Epoch: 9 [64000/70668 (91%)]	Loss: 7795.822266
+Train Epoch: 9 [67200/70668 (95%)]	Loss: 7887.342773
+Train Epoch: 9 [70400/70668 (100%)]	Loss: 7698.332520
+====> Epoch: 9 Average loss: 7808.4125
+====> Test set loss: 7813.0040 - VLB-ConvVSC : 249945.3910
+Train Epoch: 10 [0/70668 (0%)]	Loss: 7965.727051
+Train Epoch: 10 [3200/70668 (5%)]	Loss: 7789.942871
+Train Epoch: 10 [6400/70668 (9%)]	Loss: 8133.286621
+Train Epoch: 10 [9600/70668 (14%)]	Loss: 7810.309082
+Train Epoch: 10 [12800/70668 (18%)]	Loss: 7489.145020
+Train Epoch: 10 [16000/70668 (23%)]	Loss: 7792.153809
+Train Epoch: 10 [19200/70668 (27%)]	Loss: 7918.834473
+Train Epoch: 10 [22400/70668 (32%)]	Loss: 7616.100586
+Train Epoch: 10 [25600/70668 (36%)]	Loss: 8036.292480
+Train Epoch: 10 [28800/70668 (41%)]	Loss: 7737.664551
+Train Epoch: 10 [32000/70668 (45%)]	Loss: 7654.055176
+Train Epoch: 10 [35200/70668 (50%)]	Loss: 7576.267090
+Train Epoch: 10 [38400/70668 (54%)]	Loss: 7940.639648
+Train Epoch: 10 [41600/70668 (59%)]	Loss: 7929.722168
+Train Epoch: 10 [44800/70668 (63%)]	Loss: 7848.863281
+Train Epoch: 10 [48000/70668 (68%)]	Loss: 7746.512207
+Train Epoch: 10 [51200/70668 (72%)]	Loss: 8084.252441
+Train Epoch: 10 [54400/70668 (77%)]	Loss: 7761.205078
+Train Epoch: 10 [57600/70668 (81%)]	Loss: 8202.753906
+Train Epoch: 10 [60800/70668 (86%)]	Loss: 8019.166992
+Train Epoch: 10 [64000/70668 (91%)]	Loss: 7749.669922
+Train Epoch: 10 [67200/70668 (95%)]	Loss: 7899.842285
+Train Epoch: 10 [70400/70668 (100%)]	Loss: 7810.961914
+====> Epoch: 10 Average loss: 7803.4885
+====> Test set loss: 7811.6069 - VLB-ConvVSC : 249900.6965

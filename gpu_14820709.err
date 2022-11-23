@@ -1,0 +1,32 @@
+Loaded dependency [python3/3.7.14]: gcc/10.3.0-binutils-2.36.1
+Loaded module: python3/3.7.14
+
+Loading python3/3.7.14
+  Loading requirement: gcc/10.3.0-binutils-2.36.1
+Loaded module: cuda/10.2
+Loaded module: cudnn/v8.3.2.44-prod-cuda-10.2
+Loaded module: ffmpeg/4.2.2
+Traceback (most recent call last):
+  File "/zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/src/train-convvsc.py", line 28, in <module>
+    args.cuda)
+  File "/zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/src/utils.py", line 73, in get_datasets
+    transform=transforms.ToTensor()), 
+  File "/zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/src/datasets.py", line 90, in __init__
+    self.df = pd.read_csv("../bbbc021/singlecell/metadata.csv")
+  File "/zhome/a2/4/155672/.local/lib/python3.7/site-packages/pandas/util/_decorators.py", line 311, in wrapper
+    return func(*args, **kwargs)
+  File "/zhome/a2/4/155672/.local/lib/python3.7/site-packages/pandas/io/parsers/readers.py", line 586, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/zhome/a2/4/155672/.local/lib/python3.7/site-packages/pandas/io/parsers/readers.py", line 482, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "/zhome/a2/4/155672/.local/lib/python3.7/site-packages/pandas/io/parsers/readers.py", line 811, in __init__
+    self._engine = self._make_engine(self.engine)
+  File "/zhome/a2/4/155672/.local/lib/python3.7/site-packages/pandas/io/parsers/readers.py", line 1040, in _make_engine
+    return mapping[engine](self.f, **self.options)  # type: ignore[call-arg]
+  File "/zhome/a2/4/155672/.local/lib/python3.7/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 51, in __init__
+    self._open_handles(src, kwds)
+  File "/zhome/a2/4/155672/.local/lib/python3.7/site-packages/pandas/io/parsers/base_parser.py", line 229, in _open_handles
+    errors=kwds.get("encoding_errors", "strict"),
+  File "/zhome/a2/4/155672/.local/lib/python3.7/site-packages/pandas/io/common.py", line 707, in get_handle
+    newline="",
+FileNotFoundError: [Errno 2] No such file or directory: '../bbbc021/singlecell/metadata.csv'

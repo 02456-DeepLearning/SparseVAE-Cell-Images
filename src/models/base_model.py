@@ -154,9 +154,9 @@ class VariationalBaseModel():
     
     def run_training(self, train_loader, test_loader, epochs, 
                      report_interval, sample_sz=64, reload_model=True,
-                     checkpoints_path='../results/checkpoints',
-                     logs_path='../results/logs',
-                     images_path='../results/images',
+                     checkpoints_path='./results/checkpoints',
+                     logs_path='./results/logs',
+                     images_path='./results/images',
                      logging_func=print, start_epoch=None):
         
         if self.normalize_data:
@@ -177,7 +177,7 @@ class VariationalBaseModel():
             # pdb.set_trace()
             logger.scalar_summary(train_loss, test_loss, epoch)
             # Optional update
-            self.update_()
+            #self.update_()
             # For each report interval store model and save images
             if epoch % report_interval == 0:
                 with torch.no_grad():

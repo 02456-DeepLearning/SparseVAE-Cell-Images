@@ -175,6 +175,7 @@ class ConvolutionalVariationalSparseCoding(VariationalBaseModel):
     
     def update_(self):
         # Update value of c gradually 200 ( 150 / 20K = 0.0075 )
+        print('updated c and beta', self.c,self.beta)
         self.model.update_c()
         self.model.update_beta()
         

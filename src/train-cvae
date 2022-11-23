@@ -1,1 +1,1 @@
-python3 train-convvsc.py --dataset cell --epochs 500 --report-interval 1 --lr 0.0001 --latent-size 204 --hidden-size 404
+python3 train-convvsc.py --dataset cell --epochs 100 --report-interval 10 --lr 0.001 --latent-size 204 --hidden-size 404 --do-not-resume

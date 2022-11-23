@@ -9,11 +9,11 @@ def get_argparser(description):
     parser.add_argument('--batch-size', type=int, default=32, metavar='BS',
                         help='input batch size for training (default: 32)')
     # Hidden size for CelebA: 2000 dimensions, 2 layers
-    parser.add_argument('--hidden-size', type=str, default='400', metavar='HS',
-                        help='hidden sizes, separated by commas (default: 400)')
+    parser.add_argument('--hidden-size', type=str, default='404', metavar='HS',
+                        help='hidden sizes, separated by commas (default: 404)')
     # Latent size for CelebA: 800 dimensions
-    parser.add_argument('--latent-size', type=int, default=200, metavar='LS',
-                        help='number of latent dimensions (default: 200)')
+    parser.add_argument('--latent-size', type=int, default=202, metavar='LS',
+                        help='number of latent dimensions (default: 202)')
     parser.add_argument('--lr', default=1e-3, type=float, metavar='LR', 
                         help='initial learning rate')
     parser.add_argument('--epochs', type=int, default=11, metavar='N',
@@ -24,7 +24,7 @@ def get_argparser(description):
                         help='dataset [mnist, fashion, celeba]')
     parser.add_argument('--seed', type=int, default=1, metavar='S',
                         help='random seed (default: 1)')
-    parser.add_argument('--log-interval', type=int, default=500, metavar='LOG',
+    parser.add_argument('--log-interval', type=int, default=100, metavar='LOG',
                         help='how many batches to wait before logging training status')
     parser.add_argument('--report-interval', type=int, default=11, metavar='REP',
                         help='how many epochs to wait before storing training status')

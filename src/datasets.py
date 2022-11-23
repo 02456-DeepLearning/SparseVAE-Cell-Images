@@ -87,20 +87,36 @@ class Cell(Dataset):
         self.transform = transform
         
         # pandas uses relative path for some reason :D
-        self.df = pd.read_csv("../bbbc021/singlecell/metadata.csv")
+        self.df = pd.read_csv("./bbbc021/singlecell/metadata.csv")
 
+
+        label='moa'
+
+        g = self.df.groupby(label, group_keys=False)
+        balanced_df = pd.DataFrame(g.apply(lambda x: x.sample(g.size().min()))).reset_index(drop=True)
+        self.df = balanced_df
 
         self.image_paths = []
 
-        base_path = "../bbbc021/singlecell/singh_cp_pipeline_singlecell_images/"
+        base_path = "./bbbc021/singlecell/singh_cp_pipeline_singlecell_images/"
         helper_fn = lambda x,y: base_path+x+'/'+y
         
         self.image_paths = [helper_fn(x,y) for x,y in zip(self.df['Multi_Cell_Image_Name'], self.df['Single_Cell_Image_Name'])]
+        
+        self.targets = self.df['moa']
+        self.targets = pd.factorize(self.targets)[0]
+      
 
         #print(np.load(self.image_paths[0]))
-
+        # pdb.set_trace()
         np.random.seed(random_state)
-        np.random.shuffle(self.image_paths)
+
+        # shuffle image_paths and targets in unison
+        new_idxs = np.random.permutation(len(self.image_paths))
+
+        self.image_paths = np.array(self.image_paths)[new_idxs]
+        self.targets = np.array(self.targets)[new_idxs]
+
         # for i in range(len(df['Multi_Cell_Image_Name'])):
         #     self.image_paths.append("SparseVAE-Cell-Images/bbbc021/singlecell/singh_cp_pipeline_singlecell_images/" + df['Multi_Cell_Image_Name'][i] + "/"+ df['Single_Cell_Image_Name'][i])
 
@@ -109,14 +125,16 @@ class Cell(Dataset):
         
         if train:
             self.image_paths = self.image_paths[:train_size]
+            self.targets = self.targets[:train_size]
         else:
             self.image_paths = self.image_paths[-test_size:]
+            self.targets = self.targets[-test_size:]
         
     def __len__(self):
         return len(self.image_paths)
     
     def __getitem__(self, idx):
-        image, target = self.image_paths[idx], 0 # 0 -> not implemented yet
+        image, target = self.image_paths[idx], self.targets[idx] # 0 -> not implemented yet
         
 
         image = np.load(image)
