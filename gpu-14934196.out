@@ -1,0 +1,63 @@
+Mon Nov 28 11:35:11 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 520.61.05    Driver Version: 520.61.05    CUDA Version: 11.8     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  Tesla V100-PCIE...  On   | 00000000:D8:00.0 Off |                    0 |
+| N/A   30C    P0    26W / 250W |      0MiB / 32768MiB |      0%   E. Process |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+ConvVSC Baseline Experiments
+
+Using cuda device...
+Loading cell dataset...
+Done!
+
+[3, 32, 32, 68, 68] ********
+ConvVSC(
+  (conv_encoder): Sequential(
+    (0): Conv2d(3, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): ReLU()
+    (2): Conv2d(32, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (3): ReLU()
+    (4): Conv2d(32, 68, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (5): ReLU()
+    (6): Conv2d(68, 68, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (7): ReLU()
+  )
+  (features_to_hidden): Sequential(
+    (0): Linear(in_features=1088, out_features=400, bias=True)
+    (1): ReLU()
+  )
+  (fc_mean): Linear(in_features=400, out_features=200, bias=True)
+  (fc_logvar): Linear(in_features=400, out_features=200, bias=True)
+  (fc_logspike): Linear(in_features=400, out_features=200, bias=True)
+  (latent_to_features): Sequential(
+    (0): Linear(in_features=200, out_features=400, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=400, out_features=1088, bias=True)
+    (3): ReLU()
+  )
+  (conv_decoder): Sequential(
+    (0): ConvTranspose2d(68, 68, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (1): ReLU()
+    (2): ConvTranspose2d(68, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (3): ReLU()
+    (4): ConvTranspose2d(32, 32, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (5): ReLU()
+    (6): ConvTranspose2d(32, 3, kernel_size=(8, 8), stride=(2, 2), padding=(1, 1))
+    (7): Sigmoid()
+  )
+)
+Training ConvVSC model...

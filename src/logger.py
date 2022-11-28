@@ -29,11 +29,8 @@ class Logger(object):
         with self.train_writer.as_default():
             tf.summary.scalar(name='train loss', step=epoch, data=train_loss)
 
-            tf.summary.scalar(name='LOSS', step=epoch, data=logs['LOSS'])
-            tf.summary.scalar(name='BCE', step=epoch, data=logs['BCE'])
-            tf.summary.scalar(name='PRIOR', step=epoch, data=logs['PRIOR'])
-            tf.summary.scalar(name='prior1', step=epoch, data=logs['prior1'])
-            tf.summary.scalar(name='prior2', step=epoch, data=logs['prior2'])
+            for key, value in logs.items():
+                tf.summary.scalar(name=key, step=epoch, data=value)
             
             self.train_writer.flush()
 
@@ -43,11 +40,8 @@ class Logger(object):
         with self.test_writer.as_default():
             tf.summary.scalar(name='test loss', step=epoch, data=test_loss)
 
-            tf.summary.scalar(name='LOSS', step=epoch, data=logs['LOSS'])
-            tf.summary.scalar(name='BCE', step=epoch, data=logs['BCE'])
-            tf.summary.scalar(name='PRIOR', step=epoch, data=logs['PRIOR'])
-            tf.summary.scalar(name='prior1', step=epoch, data=logs['prior1'])
-            tf.summary.scalar(name='prior2', step=epoch, data=logs['prior2'])
+            for key, value in logs.items():
+                tf.summary.scalar(name=key, step=epoch, data=value)
 
             self.test_writer.flush()
 
