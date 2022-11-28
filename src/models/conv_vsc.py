@@ -170,7 +170,7 @@ class ConvolutionalVariationalSparseCoding(VariationalBaseModel):
         else:
             self.test_losses.append(log)
 
-        return LOSS
+        return LOSS, log
     
     
     def update_(self):

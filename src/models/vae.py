@@ -50,7 +50,7 @@ class VAE(nn.Module):
         # pdb.set_trace()
         mu, logvar = self.encode(x)
         z = self.reparameterize(mu, logvar)
-        return self.decode(z), mu, logvar, 0
+        return self.decode(z), mu, logvar, -1 # -1 to handle logspike
 
     
 class VariationalAutoEncoder(VariationalBaseModel):
@@ -74,5 +74,11 @@ class VariationalAutoEncoder(VariationalBaseModel):
         # https://arxiv.org/abs/1312.6114
         # 0.5 * sum(1 + log(sigma^2) - mu^2 - sigma^2)
         KLD = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
-        return BCE + KLD
+        
+        logs = {
+            "BCE": BCE,
+            "KLD": KLD
+        }
+        
+        return BCE + KLD, logs
         

@@ -5,6 +5,7 @@ from pathlib import Path
 from glob import glob
 import pandas as pd
 from tqdm import tqdm
+from collections import defaultdict
 
 from logger import Logger
 
@@ -45,17 +46,17 @@ class VariationalBaseModel():
         #pdb.set_trace()
         
         if logspike == -1: # VAE
-            loss = self.loss_function(data, recon_x, mu, logvar)
+            loss, log = self.loss_function(data, recon_x, mu, logvar)
         else: # Sparse VAE
-            loss = self.loss_function(data, *output)
-            
+            loss, log = self.loss_function(data, *output)
+             
 
         if train:
             loss.backward()
             self.optimizer.step()
 
 
-        return loss.item()
+        return loss.item(), log
     
     # TODO: Perform transformations inside DataLoader (extend datasets.MNIST)
     def transform(self, batch):
@@ -92,10 +93,17 @@ class VariationalBaseModel():
     def train(self, train_loader, epoch, logging_func=print):
         self.model.train()
         train_loss = 0
+
+        logs = defaultdict(lambda: 0)
+        
         for batch_idx, (data, _) in enumerate(train_loader):
             data = self.transform(data).to(self.device)
-            loss = self.step(data, train=True)
+            loss, log = self.step(data, train=True)
             train_loss += loss
+            
+            for key, value in log.items():
+                logs[key] += value
+            
             if batch_idx % self.log_interval == 0:
                 logging_func('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}' \
                       .format(epoch, batch_idx * len(data), 
@@ -105,24 +113,41 @@ class VariationalBaseModel():
 
         logging_func('====> Epoch: {} Average loss: {:.4f}'.format(
               epoch, train_loss / len(train_loader.dataset)))
-        return train_loss / len(train_loader.dataset)
+
+        final_loss = train_loss / len(train_loader.dataset)
+        
+        for key, value in logs.items():
+                logs[key] /= len(train_loader.dataset)
+                
+        return final_loss, logs
         
         
     # Returns the VLB for the test set
     def test(self, test_loader, epoch, logging_func=print):
         self.model.eval()
         test_loss = 0
+        
+        logs = defaultdict(lambda: 0)
+
         with torch.no_grad():
             for data, _ in test_loader:
                 data = self.transform(data).to(self.device)
-                test_loss += self.step(data, train=False)
+                loss, log = self.step(data, train=False)
+                test_loss += loss
+                for key, value in log.items():
+                    logs[key] += value
+                
                 
         VLB = test_loss / len(test_loader)
         ## Optional to normalize VLB on testset
         name = self.model.__class__.__name__
         test_loss /= len(test_loader.dataset) 
         logging_func(f'====> Test set loss: {test_loss:.4f} - VLB-{name} : {VLB:.4f}')
-        return test_loss
+
+        for key, value in logs.items():
+                logs[key] /= len(test_loader.dataset)
+                
+        return test_loss, logs
     
     
     #Auxiliary function to continue training from last trained models
@@ -176,11 +201,11 @@ class VariationalBaseModel():
         logger = Logger(f'{logs_path}/{run_name}')
         logging_func(f'Training {name} model...')
         for epoch in range(start_epoch, start_epoch + epochs):
-            train_loss = self.train(train_loader, epoch, logging_func)
-            test_loss = self.test(test_loader, epoch, logging_func)
+            train_loss, logs = self.train(train_loader, epoch, logging_func)
+            test_loss, logs = self.test(test_loader, epoch, logging_func)
             # Store log
             # pdb.set_trace()
-            logger.scalar_summary(train_loss, test_loss, epoch)
+            logger.scalar_summary(train_loss, test_loss, epoch, logs)
             # Optional update
             #self.update_()
             # For each report interval store model and save images
