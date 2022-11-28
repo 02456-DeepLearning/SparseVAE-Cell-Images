@@ -20,7 +20,7 @@ class Logger(object):
         # self.session.run(tf.compat.v1.global_variables_initializer())
 
 
-    def scalar_summary(self, train_loss, test_loss, epoch):
+    def scalar_summary(self, train_loss, test_loss, epoch, logs):
         """Log a scalar variable."""
 
         # summary = self.session.run(self.merged, {self.loss: train_loss})
@@ -28,6 +28,13 @@ class Logger(object):
         # pdb.set_trace()
         with self.train_writer.as_default():
             tf.summary.scalar(name='train loss', step=epoch, data=train_loss)
+
+            tf.summary.scalar(name='LOSS', step=epoch, data=logs['LOSS'])
+            tf.summary.scalar(name='BCE', step=epoch, data=logs['BCE'])
+            tf.summary.scalar(name='PRIOR', step=epoch, data=logs['PRIOR'])
+            tf.summary.scalar(name='prior1', step=epoch, data=logs['prior1'])
+            tf.summary.scalar(name='prior2', step=epoch, data=logs['prior2'])
+            
             self.train_writer.flush()
 
         # summary = self.session.run(self.merged, {self.loss: test_loss})
@@ -35,6 +42,13 @@ class Logger(object):
         # self.test_writer.flush()
         with self.test_writer.as_default():
             tf.summary.scalar(name='test loss', step=epoch, data=test_loss)
+
+            tf.summary.scalar(name='LOSS', step=epoch, data=logs['LOSS'])
+            tf.summary.scalar(name='BCE', step=epoch, data=logs['BCE'])
+            tf.summary.scalar(name='PRIOR', step=epoch, data=logs['PRIOR'])
+            tf.summary.scalar(name='prior1', step=epoch, data=logs['prior1'])
+            tf.summary.scalar(name='prior2', step=epoch, data=logs['prior2'])
+
             self.test_writer.flush()
 
         

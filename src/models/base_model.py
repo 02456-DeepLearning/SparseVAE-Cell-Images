@@ -43,14 +43,14 @@ class VariationalBaseModel():
         output = self.model(data)
         recon_x, mu, logvar, logspike= output
         #pdb.set_trace()
-        loss = self.loss_function(data, *output)
-
+        loss, log = self.loss_function(data, *output)
+ 
         if train:
             loss.backward()
             self.optimizer.step()
 
 
-        return loss.item()
+        return loss.item(), log
     
     # TODO: Perform transformations inside DataLoader (extend datasets.MNIST)
     def transform(self, batch):
@@ -87,10 +87,24 @@ class VariationalBaseModel():
     def train(self, train_loader, epoch, logging_func=print):
         self.model.train()
         train_loss = 0
+
+        logs = {
+            'LOSS': 0,
+            'BCE': 0,
+            'PRIOR': 0,
+            'prior1': 0,
+            'prior2': 0
+        }
+        
         for batch_idx, (data, _) in enumerate(train_loader):
             data = self.transform(data).to(self.device)
-            loss = self.step(data, train=True)
+            loss, log = self.step(data, train=True)
             train_loss += loss
+            logs['LOSS'] += log['LOSS']
+            logs['BCE'] += log['BCE']
+            logs['PRIOR'] += log['PRIOR']
+            logs['prior1'] += log['prior1']
+            logs['prior2'] += log['prior2']
             if batch_idx % self.log_interval == 0:
                 logging_func('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}' \
                       .format(epoch, batch_idx * len(data), 
@@ -100,24 +114,53 @@ class VariationalBaseModel():
 
         logging_func('====> Epoch: {} Average loss: {:.4f}'.format(
               epoch, train_loss / len(train_loader.dataset)))
-        return train_loss / len(train_loader.dataset)
+
+        final_loss = train_loss / len(train_loader.dataset)
+        logs['LOSS'] /= len(train_loader.dataset)
+        logs['BCE'] /= len(train_loader.dataset)
+        logs['PRIOR'] /= len(train_loader.dataset)
+        logs['prior1'] /= len(train_loader.dataset)
+        logs['prior2'] /= len(train_loader.dataset)
+        return final_loss, logs
         
         
     # Returns the VLB for the test set
     def test(self, test_loader, epoch, logging_func=print):
         self.model.eval()
         test_loss = 0
+        
+        logs = {
+            'LOSS': 0,
+            'BCE': 0,
+            'PRIOR': 0,
+            'prior1': 0,
+            'prior2': 0
+        }
+
         with torch.no_grad():
             for data, _ in test_loader:
                 data = self.transform(data).to(self.device)
-                test_loss += self.step(data, train=False)
+                loss, log = self.step(data, train=False)
+                test_loss += loss
+                logs['LOSS'] += log['LOSS']
+                logs['BCE'] += log['BCE']
+                logs['PRIOR'] += log['PRIOR']
+                logs['prior1'] += log['prior1']
+                logs['prior2'] += log['prior2']
+                
                 
         VLB = test_loss / len(test_loader)
         ## Optional to normalize VLB on testset
         name = self.model.__class__.__name__
         test_loss /= len(test_loader.dataset) 
         logging_func(f'====> Test set loss: {test_loss:.4f} - VLB-{name} : {VLB:.4f}')
-        return test_loss
+
+        logs['LOSS'] /= len(test_loader.dataset) 
+        logs['BCE'] /= len(test_loader.dataset) 
+        logs['PRIOR'] /= len(test_loader.dataset) 
+        logs['prior1'] /= len(test_loader.dataset) 
+        logs['prior2'] /= len(test_loader.dataset) 
+        return test_loss, logs
     
     
     #Auxiliary function to continue training from last trained models
@@ -171,11 +214,11 @@ class VariationalBaseModel():
         logger = Logger(f'{logs_path}/{run_name}')
         logging_func(f'Training {name} model...')
         for epoch in range(start_epoch, start_epoch + epochs):
-            train_loss = self.train(train_loader, epoch, logging_func)
-            test_loss = self.test(test_loader, epoch, logging_func)
+            train_loss, logs = self.train(train_loader, epoch, logging_func)
+            test_loss, logs = self.test(test_loader, epoch, logging_func)
             # Store log
             # pdb.set_trace()
-            logger.scalar_summary(train_loss, test_loss, epoch)
+            logger.scalar_summary(train_loss, test_loss, epoch, logs)
             # Optional update
             #self.update_()
             # For each report interval store model and save images
