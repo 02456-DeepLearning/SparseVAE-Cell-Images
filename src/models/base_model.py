@@ -41,9 +41,14 @@ class VariationalBaseModel():
         if train:
             self.optimizer.zero_grad()
         output = self.model(data)
-        recon_x, mu, logvar, logspike= output
+        recon_x, mu, logvar, logspike = output
         #pdb.set_trace()
-        loss = self.loss_function(data, *output)
+        
+        if logspike == -1: # VAE
+            loss = self.loss_function(data, recon_x, mu, logvar)
+        else: # Sparse VAE
+            loss = self.loss_function(data, *output)
+            
 
         if train:
             loss.backward()

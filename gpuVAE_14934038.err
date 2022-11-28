@@ -1,0 +1,9 @@
+Loaded dependency [python3/3.7.14]: gcc/10.3.0-binutils-2.36.1
+Loaded module: python3/3.7.14
+
+Loading python3/3.7.14
+  Loading requirement: gcc/10.3.0-binutils-2.36.1
+Loaded module: cuda/10.2
+Loaded module: cudnn/v8.3.2.44-prod-cuda-10.2
+Loaded module: ffmpeg/4.2.2
+/zhome/0f/f/137116/.lsbatch/1669628622.14934038.shell: line 40: /zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/dl-env/bin/activate: Permission denied

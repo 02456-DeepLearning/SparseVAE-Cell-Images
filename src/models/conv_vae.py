@@ -87,7 +87,7 @@ class ConvVAE(nn.Module):
     def forward(self, x):
         mu, logvar = self.encode(x)
         z = self.reparameterize(mu, logvar)
-        return self.decode(z), mu, logvar
+        return self.decode(z), mu, logvar, -1
     
     def update_beta(self):
         # Gradually adjust beta
