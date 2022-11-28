@@ -11,8 +11,9 @@ from logger import Logger
 
 class VariationalBaseModel():
     def __init__(self, dataset, width, height, channels, latent_sz, 
-                 learning_rate, device, log_interval, normalize=False, 
-                 flatten=True):
+                 learning_rate, device, log_interval, model_type = "CVAE", normalize=False, 
+                 flatten=False):
+        self.model_type = model_type
         self.dataset = dataset
         self.width = width
         self.height = height
@@ -21,7 +22,7 @@ class VariationalBaseModel():
         self.input_sz = channels*width*height
         self.input_sz_tup = (channels,width,height)
         self.latent_sz = latent_sz
-        
+    
         self.lr = learning_rate
         self.device = device
         self.log_interval = log_interval
@@ -38,20 +39,28 @@ class VariationalBaseModel():
     
     
     def step(self, data, train=False):
-
+        
+        
         if train:
             self.optimizer.zero_grad()
         output = self.model(data)
-        recon_x, mu, logvar, logspike = output
-        #pdb.set_trace()
         
-        if logspike == -1: # VAE
-            loss, log = self.loss_function(data, recon_x, mu, logvar)
+  
+        #test_sz = 3
+        if 3 == 3: # VAE
+            decoded_data = output[0]
+           
+            mu = output[1]
+    
+            logvar = output[2]
+            
+            loss, log = self.loss_function(data, decoded_data, mu, logvar)
         else: # Sparse VAE
             loss, log = self.loss_function(data, *output)
              
 
         if train:
+         
             loss.backward()
             self.optimizer.step()
 
@@ -220,7 +229,7 @@ class VariationalBaseModel():
                     ## Store sample plots
                     save_image(sample.view(sample_sz, self.channels, self.height,
                                            self.width),
-                               f'{images_path}/sample_{run_name}_{epoch}.png')
+                               f'{images_path}/sample_{run_name}_{epoch}_{self.model_type}.png')
                     ## Store Model
                     torch.save(self.model.state_dict(), 
-                               f'{checkpoints_path}/{run_name}_{epoch}.pth')
+                               f'{checkpoints_path}/{run_name}_{epoch}_{self.model_type}.pth')

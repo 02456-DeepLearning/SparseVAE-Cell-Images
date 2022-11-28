@@ -27,3 +27,23 @@ Skipping registering GPU devices...
 2022-11-28 11:12:50.546904: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1108]      
 /zhome/0f/f/137116/.local/lib/python3.7/site-packages/torch/nn/_reduction.py:42: UserWarning: size_average and reduce args will be deprecated, please use reduction='sum' instead.
   warnings.warn(warning.format(ret))
+Traceback (most recent call last):
+  File "/zhome/0f/f/137116/Desktop/DeepLearningProject/SparseVAE-Cell-Images/src/train-vae.py", line 31, in <module>
+    args.report_interval, args.sample_size)
+  File "/zhome/0f/f/137116/Desktop/DeepLearningProject/SparseVAE-Cell-Images/src/models/base_model.py", line 179, in run_training
+    
+  File "/zhome/0f/f/137116/Desktop/DeepLearningProject/SparseVAE-Cell-Images/src/models/base_model.py", line 95, in train
+    train_loss = 0
+  File "/zhome/0f/f/137116/.local/lib/python3.7/site-packages/torch/utils/data/dataloader.py", line 628, in __next__
+    data = self._next_data()
+  File "/zhome/0f/f/137116/.local/lib/python3.7/site-packages/torch/utils/data/dataloader.py", line 1316, in _next_data
+    idx, data = self._get_data()
+  File "/zhome/0f/f/137116/.local/lib/python3.7/site-packages/torch/utils/data/dataloader.py", line 1272, in _get_data
+    success, data = self._try_get_data()
+  File "/zhome/0f/f/137116/.local/lib/python3.7/site-packages/torch/utils/data/dataloader.py", line 1120, in _try_get_data
+    data = self._data_queue.get(timeout=timeout)
+  File "/appl/python/3.7.14/lib/python3.7/queue.py", line 179, in get
+    self.not_empty.wait(remaining)
+  File "/appl/python/3.7.14/lib/python3.7/threading.py", line 300, in wait
+    gotit = waiter.acquire(True, timeout)
+KeyboardInterrupt
