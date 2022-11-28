@@ -106,6 +106,7 @@ class ConvVSC(nn.Module):
         return y
 
     def forward(self, x):
+        # pdb.set_trace()
         mu, logvar, logspike = self.encode(x)
         z = self.reparameterize(mu, logvar, logspike)
         return self.decode(z), mu, logvar, logspike

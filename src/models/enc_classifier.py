@@ -49,7 +49,6 @@ class ClassifierModelFull(VariationalBaseModel):
         self.conv_vsc = ConvVSC(self.input_sz_tup, self.kernel_szs, self.hidden_sz,
                              latent_sz, **kwargs).to(device)
         self.load_specific_model('/zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/results/checkpoints/ConvVSC_cell_1_500_204_0-0001_12.pth')
-
         self.model = ClassifierModel(self.conv_vsc, 13).to(device)
         self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
     

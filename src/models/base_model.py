@@ -41,7 +41,7 @@ class VariationalBaseModel():
         if train:
             self.optimizer.zero_grad()
         output = self.model(data)
-        recon_x, mu, logvar, logspike= output
+        # recon_x, mu, logvar, logspike= output
         #pdb.set_trace()
         loss, log = self.loss_function(data, *output)
  
