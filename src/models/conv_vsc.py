@@ -75,9 +75,7 @@ class ConvVSC(nn.Module):
         self.conv_decoder = nn.Sequential(*[ 
             layer for module in deconv_modules for layer in module
         ])
-        #pdb.set_trace()
 
-        
 
     def encode(self, x):
         # Recognition function
@@ -106,6 +104,7 @@ class ConvVSC(nn.Module):
         return y
 
     def forward(self, x):
+        # pdb.set_trace()
         mu, logvar, logspike = self.encode(x)
         z = self.reparameterize(mu, logvar, logspike)
         return self.decode(z), mu, logvar, logspike
