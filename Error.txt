@@ -1,0 +1,7 @@
+Uncaught exception
+Traceback (most recent call last):
+  File "/zhome/bb/9/153142/SparseVAE-Cell-Images/src/sliders.py", line 311, in on_click2
+    exec('self.horizontalSlider_%d.setValue(%d)' % (i, latent_space[i]*100))
+TypeError: %d format: a number is required, not str
+
+Send This File And An Explanation Of The Error To yigit.atay@vanderbilt.edu
