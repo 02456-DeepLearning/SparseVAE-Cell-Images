@@ -1,0 +1,659 @@
+Mon Nov 28 23:18:11 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 520.61.05    Driver Version: 520.61.05    CUDA Version: 11.8     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  Tesla V100-PCIE...  On   | 00000000:58:00.0 Off |                    0 |
+| N/A   33C    P0    25W / 250W |      0MiB / 32768MiB |      0%   E. Process |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+ConvVSC classifier
+
+Using cuda device...
+Loading cell dataset...
+Done!
+
+[3, 32, 32, 68, 68] ********
+Loading trained model from /zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/results/checkpoints/ConvVSC_cell_1_481_200_0-001_420.pth
+Training ClassifierModel model...
+Train Epoch: 1 [0/56534 (0%)]	Loss: 0.084367
+Train Epoch: 1 [3200/56534 (6%)]	Loss: 0.074916
+Train Epoch: 1 [6400/56534 (11%)]	Loss: 0.065957
+Train Epoch: 1 [9600/56534 (17%)]	Loss: 0.067350
+Train Epoch: 1 [12800/56534 (23%)]	Loss: 0.070144
+Train Epoch: 1 [16000/56534 (28%)]	Loss: 0.061196
+Train Epoch: 1 [19200/56534 (34%)]	Loss: 0.054752
+Train Epoch: 1 [22400/56534 (40%)]	Loss: 0.062373
+Train Epoch: 1 [25600/56534 (45%)]	Loss: 0.064936
+Train Epoch: 1 [28800/56534 (51%)]	Loss: 0.066494
+Train Epoch: 1 [32000/56534 (57%)]	Loss: 0.062732
+Train Epoch: 1 [35200/56534 (62%)]	Loss: 0.053004
+Train Epoch: 1 [38400/56534 (68%)]	Loss: 0.053734
+Train Epoch: 1 [41600/56534 (74%)]	Loss: 0.051613
+Train Epoch: 1 [44800/56534 (79%)]	Loss: 0.053867
+Train Epoch: 1 [48000/56534 (85%)]	Loss: 0.060335
+Train Epoch: 1 [51200/56534 (91%)]	Loss: 0.051765
+Train Epoch: 1 [54400/56534 (96%)]	Loss: 0.051048
+====> Epoch: 1 Average loss: 0.0633
+====> Test set loss: 0.0597 - VLB-ClassifierModel : 1.9078
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.059664095704034074, 'Accuracy': 0.37493808816245666})
+Train Epoch: 2 [0/56534 (0%)]	Loss: 0.054346
+Train Epoch: 2 [3200/56534 (6%)]	Loss: 0.065255
+Train Epoch: 2 [6400/56534 (11%)]	Loss: 0.070445
+Train Epoch: 2 [9600/56534 (17%)]	Loss: 0.061677
+Train Epoch: 2 [12800/56534 (23%)]	Loss: 0.058204
+Train Epoch: 2 [16000/56534 (28%)]	Loss: 0.055873
+Train Epoch: 2 [19200/56534 (34%)]	Loss: 0.049038
+Train Epoch: 2 [22400/56534 (40%)]	Loss: 0.053012
+Train Epoch: 2 [25600/56534 (45%)]	Loss: 0.061748
+Train Epoch: 2 [28800/56534 (51%)]	Loss: 0.060599
+Train Epoch: 2 [32000/56534 (57%)]	Loss: 0.061588
+Train Epoch: 2 [35200/56534 (62%)]	Loss: 0.068441
+Train Epoch: 2 [38400/56534 (68%)]	Loss: 0.048246
+Train Epoch: 2 [41600/56534 (74%)]	Loss: 0.058889
+Train Epoch: 2 [44800/56534 (79%)]	Loss: 0.061784
+Train Epoch: 2 [48000/56534 (85%)]	Loss: 0.063452
+Train Epoch: 2 [51200/56534 (91%)]	Loss: 0.056261
+Train Epoch: 2 [54400/56534 (96%)]	Loss: 0.051069
+====> Epoch: 2 Average loss: 0.0598
+====> Test set loss: 0.0592 - VLB-ClassifierModel : 1.8933
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05921150028161551, 'Accuracy': 0.3797495223943961})
+Train Epoch: 3 [0/56534 (0%)]	Loss: 0.045319
+Train Epoch: 3 [3200/56534 (6%)]	Loss: 0.056906
+Train Epoch: 3 [6400/56534 (11%)]	Loss: 0.059575
+Train Epoch: 3 [9600/56534 (17%)]	Loss: 0.059356
+Train Epoch: 3 [12800/56534 (23%)]	Loss: 0.063149
+Train Epoch: 3 [16000/56534 (28%)]	Loss: 0.059521
+Train Epoch: 3 [19200/56534 (34%)]	Loss: 0.057557
+Train Epoch: 3 [22400/56534 (40%)]	Loss: 0.055959
+Train Epoch: 3 [25600/56534 (45%)]	Loss: 0.069518
+Train Epoch: 3 [28800/56534 (51%)]	Loss: 0.053857
+Train Epoch: 3 [32000/56534 (57%)]	Loss: 0.056292
+Train Epoch: 3 [35200/56534 (62%)]	Loss: 0.052062
+Train Epoch: 3 [38400/56534 (68%)]	Loss: 0.057083
+Train Epoch: 3 [41600/56534 (74%)]	Loss: 0.051439
+Train Epoch: 3 [44800/56534 (79%)]	Loss: 0.072074
+Train Epoch: 3 [48000/56534 (85%)]	Loss: 0.052320
+Train Epoch: 3 [51200/56534 (91%)]	Loss: 0.056684
+Train Epoch: 3 [54400/56534 (96%)]	Loss: 0.063478
+====> Epoch: 3 Average loss: 0.0596
+====> Test set loss: 0.0593 - VLB-ClassifierModel : 1.8954
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05927767241944985, 'Accuracy': 0.3793249840798132})
+Train Epoch: 4 [0/56534 (0%)]	Loss: 0.057694
+Train Epoch: 4 [3200/56534 (6%)]	Loss: 0.052810
+Train Epoch: 4 [6400/56534 (11%)]	Loss: 0.065800
+Train Epoch: 4 [9600/56534 (17%)]	Loss: 0.053586
+Train Epoch: 4 [12800/56534 (23%)]	Loss: 0.056141
+Train Epoch: 4 [16000/56534 (28%)]	Loss: 0.060058
+Train Epoch: 4 [19200/56534 (34%)]	Loss: 0.067928
+Train Epoch: 4 [22400/56534 (40%)]	Loss: 0.051856
+Train Epoch: 4 [25600/56534 (45%)]	Loss: 0.056546
+Train Epoch: 4 [28800/56534 (51%)]	Loss: 0.063094
+Train Epoch: 4 [32000/56534 (57%)]	Loss: 0.059934
+Train Epoch: 4 [35200/56534 (62%)]	Loss: 0.052040
+Train Epoch: 4 [38400/56534 (68%)]	Loss: 0.071163
+Train Epoch: 4 [41600/56534 (74%)]	Loss: 0.060716
+Train Epoch: 4 [44800/56534 (79%)]	Loss: 0.056581
+Train Epoch: 4 [48000/56534 (85%)]	Loss: 0.064386
+Train Epoch: 4 [51200/56534 (91%)]	Loss: 0.058967
+Train Epoch: 4 [54400/56534 (96%)]	Loss: 0.068730
+====> Epoch: 4 Average loss: 0.0596
+====> Test set loss: 0.0592 - VLB-ClassifierModel : 1.8917
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.059161265016335944, 'Accuracy': 0.3788296893794665})
+Train Epoch: 5 [0/56534 (0%)]	Loss: 0.049679
+Train Epoch: 5 [3200/56534 (6%)]	Loss: 0.056012
+Train Epoch: 5 [6400/56534 (11%)]	Loss: 0.053771
+Train Epoch: 5 [9600/56534 (17%)]	Loss: 0.057723
+Train Epoch: 5 [12800/56534 (23%)]	Loss: 0.061071
+Train Epoch: 5 [16000/56534 (28%)]	Loss: 0.060620
+Train Epoch: 5 [19200/56534 (34%)]	Loss: 0.058712
+Train Epoch: 5 [22400/56534 (40%)]	Loss: 0.050329
+Train Epoch: 5 [25600/56534 (45%)]	Loss: 0.059112
+Train Epoch: 5 [28800/56534 (51%)]	Loss: 0.054433
+Train Epoch: 5 [32000/56534 (57%)]	Loss: 0.055827
+Train Epoch: 5 [35200/56534 (62%)]	Loss: 0.061595
+Train Epoch: 5 [38400/56534 (68%)]	Loss: 0.056655
+Train Epoch: 5 [41600/56534 (74%)]	Loss: 0.052097
+Train Epoch: 5 [44800/56534 (79%)]	Loss: 0.061517
+Train Epoch: 5 [48000/56534 (85%)]	Loss: 0.064630
+Train Epoch: 5 [51200/56534 (91%)]	Loss: 0.057834
+Train Epoch: 5 [54400/56534 (96%)]	Loss: 0.054730
+====> Epoch: 5 Average loss: 0.0595
+====> Test set loss: 0.0590 - VLB-ClassifierModel : 1.8871
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.059019037318028926, 'Accuracy': 0.3821552395103658})
+Train Epoch: 6 [0/56534 (0%)]	Loss: 0.054267
+Train Epoch: 6 [3200/56534 (6%)]	Loss: 0.057873
+Train Epoch: 6 [6400/56534 (11%)]	Loss: 0.054521
+Train Epoch: 6 [9600/56534 (17%)]	Loss: 0.051752
+Train Epoch: 6 [12800/56534 (23%)]	Loss: 0.058999
+Train Epoch: 6 [16000/56534 (28%)]	Loss: 0.062290
+Train Epoch: 6 [19200/56534 (34%)]	Loss: 0.057050
+Train Epoch: 6 [22400/56534 (40%)]	Loss: 0.055575
+Train Epoch: 6 [25600/56534 (45%)]	Loss: 0.050647
+Train Epoch: 6 [28800/56534 (51%)]	Loss: 0.071146
+Train Epoch: 6 [32000/56534 (57%)]	Loss: 0.059665
+Train Epoch: 6 [35200/56534 (62%)]	Loss: 0.066223
+Train Epoch: 6 [38400/56534 (68%)]	Loss: 0.054892
+Train Epoch: 6 [41600/56534 (74%)]	Loss: 0.053089
+Train Epoch: 6 [44800/56534 (79%)]	Loss: 0.060790
+Train Epoch: 6 [48000/56534 (85%)]	Loss: 0.054388
+Train Epoch: 6 [51200/56534 (91%)]	Loss: 0.050548
+Train Epoch: 6 [54400/56534 (96%)]	Loss: 0.049732
+====> Epoch: 6 Average loss: 0.0594
+====> Test set loss: 0.0591 - VLB-ClassifierModel : 1.8901
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.059111118856478774, 'Accuracy': 0.3827920469822401})
+Train Epoch: 7 [0/56534 (0%)]	Loss: 0.076464
+Train Epoch: 7 [3200/56534 (6%)]	Loss: 0.058820
+Train Epoch: 7 [6400/56534 (11%)]	Loss: 0.052423
+Train Epoch: 7 [9600/56534 (17%)]	Loss: 0.057341
+Train Epoch: 7 [12800/56534 (23%)]	Loss: 0.064346
+Train Epoch: 7 [16000/56534 (28%)]	Loss: 0.060289
+Train Epoch: 7 [19200/56534 (34%)]	Loss: 0.057509
+Train Epoch: 7 [22400/56534 (40%)]	Loss: 0.056480
+Train Epoch: 7 [25600/56534 (45%)]	Loss: 0.061870
+Train Epoch: 7 [28800/56534 (51%)]	Loss: 0.064332
+Train Epoch: 7 [32000/56534 (57%)]	Loss: 0.061197
+Train Epoch: 7 [35200/56534 (62%)]	Loss: 0.073877
+Train Epoch: 7 [38400/56534 (68%)]	Loss: 0.071160
+Train Epoch: 7 [41600/56534 (74%)]	Loss: 0.048503
+Train Epoch: 7 [44800/56534 (79%)]	Loss: 0.062668
+Train Epoch: 7 [48000/56534 (85%)]	Loss: 0.060503
+Train Epoch: 7 [51200/56534 (91%)]	Loss: 0.059278
+Train Epoch: 7 [54400/56534 (96%)]	Loss: 0.065783
+====> Epoch: 7 Average loss: 0.0594
+====> Test set loss: 0.0590 - VLB-ClassifierModel : 1.8866
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05900066882226402, 'Accuracy': 0.3802448170947428})
+Train Epoch: 8 [0/56534 (0%)]	Loss: 0.066734
+Train Epoch: 8 [3200/56534 (6%)]	Loss: 0.054667
+Train Epoch: 8 [6400/56534 (11%)]	Loss: 0.053934
+Train Epoch: 8 [9600/56534 (17%)]	Loss: 0.066214
+Train Epoch: 8 [12800/56534 (23%)]	Loss: 0.062705
+Train Epoch: 8 [16000/56534 (28%)]	Loss: 0.070830
+Train Epoch: 8 [19200/56534 (34%)]	Loss: 0.055864
+Train Epoch: 8 [22400/56534 (40%)]	Loss: 0.054646
+Train Epoch: 8 [25600/56534 (45%)]	Loss: 0.048828
+Train Epoch: 8 [28800/56534 (51%)]	Loss: 0.062593
+Train Epoch: 8 [32000/56534 (57%)]	Loss: 0.059444
+Train Epoch: 8 [35200/56534 (62%)]	Loss: 0.060298
+Train Epoch: 8 [38400/56534 (68%)]	Loss: 0.065059
+Train Epoch: 8 [41600/56534 (74%)]	Loss: 0.060839
+Train Epoch: 8 [44800/56534 (79%)]	Loss: 0.059923
+Train Epoch: 8 [48000/56534 (85%)]	Loss: 0.071996
+Train Epoch: 8 [51200/56534 (91%)]	Loss: 0.055095
+Train Epoch: 8 [54400/56534 (96%)]	Loss: 0.063527
+====> Epoch: 8 Average loss: 0.0593
+====> Test set loss: 0.0589 - VLB-ClassifierModel : 1.8831
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05889193851257985, 'Accuracy': 0.38590532795584803})
+Train Epoch: 9 [0/56534 (0%)]	Loss: 0.050469
+Train Epoch: 9 [3200/56534 (6%)]	Loss: 0.054330
+Train Epoch: 9 [6400/56534 (11%)]	Loss: 0.062878
+Train Epoch: 9 [9600/56534 (17%)]	Loss: 0.065249
+Train Epoch: 9 [12800/56534 (23%)]	Loss: 0.051317
+Train Epoch: 9 [16000/56534 (28%)]	Loss: 0.064816
+Train Epoch: 9 [19200/56534 (34%)]	Loss: 0.065879
+Train Epoch: 9 [22400/56534 (40%)]	Loss: 0.059493
+Train Epoch: 9 [25600/56534 (45%)]	Loss: 0.049235
+Train Epoch: 9 [28800/56534 (51%)]	Loss: 0.072198
+Train Epoch: 9 [32000/56534 (57%)]	Loss: 0.068430
+Train Epoch: 9 [35200/56534 (62%)]	Loss: 0.059818
+Train Epoch: 9 [38400/56534 (68%)]	Loss: 0.056344
+Train Epoch: 9 [41600/56534 (74%)]	Loss: 0.061853
+Train Epoch: 9 [44800/56534 (79%)]	Loss: 0.058850
+Train Epoch: 9 [48000/56534 (85%)]	Loss: 0.056749
+Train Epoch: 9 [51200/56534 (91%)]	Loss: 0.064685
+Train Epoch: 9 [54400/56534 (96%)]	Loss: 0.053730
+====> Epoch: 9 Average loss: 0.0593
+====> Test set loss: 0.0590 - VLB-ClassifierModel : 1.8868
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05900803422384654, 'Accuracy': 0.3834288544541145})
+Train Epoch: 10 [0/56534 (0%)]	Loss: 0.062654
+Train Epoch: 10 [3200/56534 (6%)]	Loss: 0.051648
+Train Epoch: 10 [6400/56534 (11%)]	Loss: 0.063621
+Train Epoch: 10 [9600/56534 (17%)]	Loss: 0.074200
+Train Epoch: 10 [12800/56534 (23%)]	Loss: 0.063829
+Train Epoch: 10 [16000/56534 (28%)]	Loss: 0.062324
+Train Epoch: 10 [19200/56534 (34%)]	Loss: 0.060191
+Train Epoch: 10 [22400/56534 (40%)]	Loss: 0.059052
+Train Epoch: 10 [25600/56534 (45%)]	Loss: 0.054005
+Train Epoch: 10 [28800/56534 (51%)]	Loss: 0.056393
+Train Epoch: 10 [32000/56534 (57%)]	Loss: 0.048634
+Train Epoch: 10 [35200/56534 (62%)]	Loss: 0.048735
+Train Epoch: 10 [38400/56534 (68%)]	Loss: 0.069698
+Train Epoch: 10 [41600/56534 (74%)]	Loss: 0.057495
+Train Epoch: 10 [44800/56534 (79%)]	Loss: 0.067773
+Train Epoch: 10 [48000/56534 (85%)]	Loss: 0.057097
+Train Epoch: 10 [51200/56534 (91%)]	Loss: 0.070755
+Train Epoch: 10 [54400/56534 (96%)]	Loss: 0.060845
+====> Epoch: 10 Average loss: 0.0593
+====> Test set loss: 0.0588 - VLB-ClassifierModel : 1.8809
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.0588252414675568, 'Accuracy': 0.3854100332555013})
+Train Epoch: 11 [0/56534 (0%)]	Loss: 0.064136
+Train Epoch: 11 [3200/56534 (6%)]	Loss: 0.058980
+Train Epoch: 11 [6400/56534 (11%)]	Loss: 0.056673
+Train Epoch: 11 [9600/56534 (17%)]	Loss: 0.062274
+Train Epoch: 11 [12800/56534 (23%)]	Loss: 0.071059
+Train Epoch: 11 [16000/56534 (28%)]	Loss: 0.063979
+Train Epoch: 11 [19200/56534 (34%)]	Loss: 0.072331
+Train Epoch: 11 [22400/56534 (40%)]	Loss: 0.066019
+Train Epoch: 11 [25600/56534 (45%)]	Loss: 0.053793
+Train Epoch: 11 [28800/56534 (51%)]	Loss: 0.059627
+Train Epoch: 11 [32000/56534 (57%)]	Loss: 0.060013
+Train Epoch: 11 [35200/56534 (62%)]	Loss: 0.060070
+Train Epoch: 11 [38400/56534 (68%)]	Loss: 0.067994
+Train Epoch: 11 [41600/56534 (74%)]	Loss: 0.062307
+Train Epoch: 11 [44800/56534 (79%)]	Loss: 0.072555
+Train Epoch: 11 [48000/56534 (85%)]	Loss: 0.062903
+Train Epoch: 11 [51200/56534 (91%)]	Loss: 0.070912
+Train Epoch: 11 [54400/56534 (96%)]	Loss: 0.062198
+====> Epoch: 11 Average loss: 0.0592
+====> Test set loss: 0.0589 - VLB-ClassifierModel : 1.8847
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05894271835504482, 'Accuracy': 0.3856930587985566})
+Train Epoch: 12 [0/56534 (0%)]	Loss: 0.059802
+Train Epoch: 12 [3200/56534 (6%)]	Loss: 0.057065
+Train Epoch: 12 [6400/56534 (11%)]	Loss: 0.054328
+Train Epoch: 12 [9600/56534 (17%)]	Loss: 0.059629
+Train Epoch: 12 [12800/56534 (23%)]	Loss: 0.048153
+Train Epoch: 12 [16000/56534 (28%)]	Loss: 0.069880
+Train Epoch: 12 [19200/56534 (34%)]	Loss: 0.069078
+Train Epoch: 12 [22400/56534 (40%)]	Loss: 0.058357
+Train Epoch: 12 [25600/56534 (45%)]	Loss: 0.062316
+Train Epoch: 12 [28800/56534 (51%)]	Loss: 0.061584
+Train Epoch: 12 [32000/56534 (57%)]	Loss: 0.061275
+Train Epoch: 12 [35200/56534 (62%)]	Loss: 0.061578
+Train Epoch: 12 [38400/56534 (68%)]	Loss: 0.050663
+Train Epoch: 12 [41600/56534 (74%)]	Loss: 0.055449
+Train Epoch: 12 [44800/56534 (79%)]	Loss: 0.055162
+Train Epoch: 12 [48000/56534 (85%)]	Loss: 0.062351
+Train Epoch: 12 [51200/56534 (91%)]	Loss: 0.056709
+Train Epoch: 12 [54400/56534 (96%)]	Loss: 0.061766
+====> Epoch: 12 Average loss: 0.0592
+====> Test set loss: 0.0588 - VLB-ClassifierModel : 1.8792
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.058771667279382676, 'Accuracy': 0.3872496992853605})
+Train Epoch: 13 [0/56534 (0%)]	Loss: 0.055469
+Train Epoch: 13 [3200/56534 (6%)]	Loss: 0.054238
+Train Epoch: 13 [6400/56534 (11%)]	Loss: 0.043367
+Train Epoch: 13 [9600/56534 (17%)]	Loss: 0.058448
+Train Epoch: 13 [12800/56534 (23%)]	Loss: 0.061559
+Train Epoch: 13 [16000/56534 (28%)]	Loss: 0.069233
+Train Epoch: 13 [19200/56534 (34%)]	Loss: 0.063359
+Train Epoch: 13 [22400/56534 (40%)]	Loss: 0.068230
+Train Epoch: 13 [25600/56534 (45%)]	Loss: 0.053012
+Train Epoch: 13 [28800/56534 (51%)]	Loss: 0.059965
+Train Epoch: 13 [32000/56534 (57%)]	Loss: 0.052724
+Train Epoch: 13 [35200/56534 (62%)]	Loss: 0.056955
+Train Epoch: 13 [38400/56534 (68%)]	Loss: 0.059579
+Train Epoch: 13 [41600/56534 (74%)]	Loss: 0.049631
+Train Epoch: 13 [44800/56534 (79%)]	Loss: 0.058769
+Train Epoch: 13 [48000/56534 (85%)]	Loss: 0.056787
+Train Epoch: 13 [51200/56534 (91%)]	Loss: 0.062227
+Train Epoch: 13 [54400/56534 (96%)]	Loss: 0.064600
+====> Epoch: 13 Average loss: 0.0591
+====> Test set loss: 0.0587 - VLB-ClassifierModel : 1.8784
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05874536055664276, 'Accuracy': 0.3877449939857072})
+Train Epoch: 14 [0/56534 (0%)]	Loss: 0.052189
+Train Epoch: 14 [3200/56534 (6%)]	Loss: 0.049324
+Train Epoch: 14 [6400/56534 (11%)]	Loss: 0.066748
+Train Epoch: 14 [9600/56534 (17%)]	Loss: 0.050291
+Train Epoch: 14 [12800/56534 (23%)]	Loss: 0.062391
+Train Epoch: 14 [16000/56534 (28%)]	Loss: 0.065762
+Train Epoch: 14 [19200/56534 (34%)]	Loss: 0.056074
+Train Epoch: 14 [22400/56534 (40%)]	Loss: 0.060162
+Train Epoch: 14 [25600/56534 (45%)]	Loss: 0.061923
+Train Epoch: 14 [28800/56534 (51%)]	Loss: 0.053405
+Train Epoch: 14 [32000/56534 (57%)]	Loss: 0.050337
+Train Epoch: 14 [35200/56534 (62%)]	Loss: 0.054375
+Train Epoch: 14 [38400/56534 (68%)]	Loss: 0.057488
+Train Epoch: 14 [41600/56534 (74%)]	Loss: 0.058964
+Train Epoch: 14 [44800/56534 (79%)]	Loss: 0.063186
+Train Epoch: 14 [48000/56534 (85%)]	Loss: 0.059188
+Train Epoch: 14 [51200/56534 (91%)]	Loss: 0.064625
+Train Epoch: 14 [54400/56534 (96%)]	Loss: 0.064551
+====> Epoch: 14 Average loss: 0.0591
+====> Test set loss: 0.0588 - VLB-ClassifierModel : 1.8796
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.058782331454123794, 'Accuracy': 0.3837826363829336})
+Train Epoch: 15 [0/56534 (0%)]	Loss: 0.061724
+Train Epoch: 15 [3200/56534 (6%)]	Loss: 0.052340
+Train Epoch: 15 [6400/56534 (11%)]	Loss: 0.056826
+Train Epoch: 15 [9600/56534 (17%)]	Loss: 0.050310
+Train Epoch: 15 [12800/56534 (23%)]	Loss: 0.065238
+Train Epoch: 15 [16000/56534 (28%)]	Loss: 0.064628
+Train Epoch: 15 [19200/56534 (34%)]	Loss: 0.050382
+Train Epoch: 15 [22400/56534 (40%)]	Loss: 0.057493
+Train Epoch: 15 [25600/56534 (45%)]	Loss: 0.068138
+Train Epoch: 15 [28800/56534 (51%)]	Loss: 0.062568
+Train Epoch: 15 [32000/56534 (57%)]	Loss: 0.066688
+Train Epoch: 15 [35200/56534 (62%)]	Loss: 0.061545
+Train Epoch: 15 [38400/56534 (68%)]	Loss: 0.055157
+Train Epoch: 15 [41600/56534 (74%)]	Loss: 0.052768
+Train Epoch: 15 [44800/56534 (79%)]	Loss: 0.064423
+Train Epoch: 15 [48000/56534 (85%)]	Loss: 0.056491
+Train Epoch: 15 [51200/56534 (91%)]	Loss: 0.060566
+Train Epoch: 15 [54400/56534 (96%)]	Loss: 0.065741
+====> Epoch: 15 Average loss: 0.0591
+====> Test set loss: 0.0587 - VLB-ClassifierModel : 1.8784
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05874623079373478, 'Accuracy': 0.3863298662704309})
+Train Epoch: 16 [0/56534 (0%)]	Loss: 0.048000
+Train Epoch: 16 [3200/56534 (6%)]	Loss: 0.059344
+Train Epoch: 16 [6400/56534 (11%)]	Loss: 0.068264
+Train Epoch: 16 [9600/56534 (17%)]	Loss: 0.062550
+Train Epoch: 16 [12800/56534 (23%)]	Loss: 0.059012
+Train Epoch: 16 [16000/56534 (28%)]	Loss: 0.060311
+Train Epoch: 16 [19200/56534 (34%)]	Loss: 0.059792
+Train Epoch: 16 [22400/56534 (40%)]	Loss: 0.055499
+Train Epoch: 16 [25600/56534 (45%)]	Loss: 0.065711
+Train Epoch: 16 [28800/56534 (51%)]	Loss: 0.055886
+Train Epoch: 16 [32000/56534 (57%)]	Loss: 0.057638
+Train Epoch: 16 [35200/56534 (62%)]	Loss: 0.063784
+Train Epoch: 16 [38400/56534 (68%)]	Loss: 0.058722
+Train Epoch: 16 [41600/56534 (74%)]	Loss: 0.053435
+Train Epoch: 16 [44800/56534 (79%)]	Loss: 0.054037
+Train Epoch: 16 [48000/56534 (85%)]	Loss: 0.056584
+Train Epoch: 16 [51200/56534 (91%)]	Loss: 0.049903
+Train Epoch: 16 [54400/56534 (96%)]	Loss: 0.047582
+====> Epoch: 16 Average loss: 0.0590
+====> Test set loss: 0.0587 - VLB-ClassifierModel : 1.8766
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05869067614392128, 'Accuracy': 0.3871789428995967})
+Train Epoch: 17 [0/56534 (0%)]	Loss: 0.058277
+Train Epoch: 17 [3200/56534 (6%)]	Loss: 0.068824
+Train Epoch: 17 [6400/56534 (11%)]	Loss: 0.055237
+Train Epoch: 17 [9600/56534 (17%)]	Loss: 0.058064
+Train Epoch: 17 [12800/56534 (23%)]	Loss: 0.066872
+Train Epoch: 17 [16000/56534 (28%)]	Loss: 0.055877
+Train Epoch: 17 [19200/56534 (34%)]	Loss: 0.056117
+Train Epoch: 17 [22400/56534 (40%)]	Loss: 0.060937
+Train Epoch: 17 [25600/56534 (45%)]	Loss: 0.057555
+Train Epoch: 17 [28800/56534 (51%)]	Loss: 0.055470
+Train Epoch: 17 [32000/56534 (57%)]	Loss: 0.046581
+Train Epoch: 17 [35200/56534 (62%)]	Loss: 0.056439
+Train Epoch: 17 [38400/56534 (68%)]	Loss: 0.061805
+Train Epoch: 17 [41600/56534 (74%)]	Loss: 0.049441
+Train Epoch: 17 [44800/56534 (79%)]	Loss: 0.061226
+Train Epoch: 17 [48000/56534 (85%)]	Loss: 0.052614
+Train Epoch: 17 [51200/56534 (91%)]	Loss: 0.060837
+Train Epoch: 17 [54400/56534 (96%)]	Loss: 0.059862
+====> Epoch: 17 Average loss: 0.0590
+====> Test set loss: 0.0587 - VLB-ClassifierModel : 1.8780
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.058733904436794736, 'Accuracy': 0.3848439821693908})
+Train Epoch: 18 [0/56534 (0%)]	Loss: 0.051903
+Train Epoch: 18 [3200/56534 (6%)]	Loss: 0.051766
+Train Epoch: 18 [6400/56534 (11%)]	Loss: 0.044638
+Train Epoch: 18 [9600/56534 (17%)]	Loss: 0.061778
+Train Epoch: 18 [12800/56534 (23%)]	Loss: 0.058322
+Train Epoch: 18 [16000/56534 (28%)]	Loss: 0.063097
+Train Epoch: 18 [19200/56534 (34%)]	Loss: 0.061993
+Train Epoch: 18 [22400/56534 (40%)]	Loss: 0.050287
+Train Epoch: 18 [25600/56534 (45%)]	Loss: 0.063634
+Train Epoch: 18 [28800/56534 (51%)]	Loss: 0.054012
+Train Epoch: 18 [32000/56534 (57%)]	Loss: 0.078485
+Train Epoch: 18 [35200/56534 (62%)]	Loss: 0.063890
+Train Epoch: 18 [38400/56534 (68%)]	Loss: 0.059567
+Train Epoch: 18 [41600/56534 (74%)]	Loss: 0.057938
+Train Epoch: 18 [44800/56534 (79%)]	Loss: 0.061525
+Train Epoch: 18 [48000/56534 (85%)]	Loss: 0.047999
+Train Epoch: 18 [51200/56534 (91%)]	Loss: 0.065111
+Train Epoch: 18 [54400/56534 (96%)]	Loss: 0.065905
+====> Epoch: 18 Average loss: 0.0590
+====> Test set loss: 0.0586 - VLB-ClassifierModel : 1.8725
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.058561388764556514, 'Accuracy': 0.38972617278709404})
+Train Epoch: 19 [0/56534 (0%)]	Loss: 0.054656
+Train Epoch: 19 [3200/56534 (6%)]	Loss: 0.058392
+Train Epoch: 19 [6400/56534 (11%)]	Loss: 0.058626
+Train Epoch: 19 [9600/56534 (17%)]	Loss: 0.046850
+Train Epoch: 19 [12800/56534 (23%)]	Loss: 0.058488
+Train Epoch: 19 [16000/56534 (28%)]	Loss: 0.058981
+Train Epoch: 19 [19200/56534 (34%)]	Loss: 0.062881
+Train Epoch: 19 [22400/56534 (40%)]	Loss: 0.052505
+Train Epoch: 19 [25600/56534 (45%)]	Loss: 0.072291
+Train Epoch: 19 [28800/56534 (51%)]	Loss: 0.061764
+Train Epoch: 19 [32000/56534 (57%)]	Loss: 0.064292
+Train Epoch: 19 [35200/56534 (62%)]	Loss: 0.062915
+Train Epoch: 19 [38400/56534 (68%)]	Loss: 0.067762
+Train Epoch: 19 [41600/56534 (74%)]	Loss: 0.056502
+Train Epoch: 19 [44800/56534 (79%)]	Loss: 0.059851
+Train Epoch: 19 [48000/56534 (85%)]	Loss: 0.059165
+Train Epoch: 19 [51200/56534 (91%)]	Loss: 0.067907
+Train Epoch: 19 [54400/56534 (96%)]	Loss: 0.059930
+====> Epoch: 19 Average loss: 0.0589
+====> Test set loss: 0.0586 - VLB-ClassifierModel : 1.8725
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05856047834398927, 'Accuracy': 0.38647137904195855})
+Train Epoch: 20 [0/56534 (0%)]	Loss: 0.050264
+Train Epoch: 20 [3200/56534 (6%)]	Loss: 0.057855
+Train Epoch: 20 [6400/56534 (11%)]	Loss: 0.059331
+Train Epoch: 20 [9600/56534 (17%)]	Loss: 0.053797
+Train Epoch: 20 [12800/56534 (23%)]	Loss: 0.066697
+Train Epoch: 20 [16000/56534 (28%)]	Loss: 0.068279
+Train Epoch: 20 [19200/56534 (34%)]	Loss: 0.060824
+Train Epoch: 20 [22400/56534 (40%)]	Loss: 0.058939
+Train Epoch: 20 [25600/56534 (45%)]	Loss: 0.061086
+Train Epoch: 20 [28800/56534 (51%)]	Loss: 0.060263
+Train Epoch: 20 [32000/56534 (57%)]	Loss: 0.063409
+Train Epoch: 20 [35200/56534 (62%)]	Loss: 0.058762
+Train Epoch: 20 [38400/56534 (68%)]	Loss: 0.049933
+Train Epoch: 20 [41600/56534 (74%)]	Loss: 0.067365
+Train Epoch: 20 [44800/56534 (79%)]	Loss: 0.059826
+Train Epoch: 20 [48000/56534 (85%)]	Loss: 0.058473
+Train Epoch: 20 [51200/56534 (91%)]	Loss: 0.060696
+Train Epoch: 20 [54400/56534 (96%)]	Loss: 0.055685
+====> Epoch: 20 Average loss: 0.0589
+====> Test set loss: 0.0584 - VLB-ClassifierModel : 1.8689
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.058448355238224926, 'Accuracy': 0.38831104507181774})
+Train Epoch: 21 [0/56534 (0%)]	Loss: 0.053374
+Train Epoch: 21 [3200/56534 (6%)]	Loss: 0.066561
+Train Epoch: 21 [6400/56534 (11%)]	Loss: 0.060422
+Train Epoch: 21 [9600/56534 (17%)]	Loss: 0.050376
+Train Epoch: 21 [12800/56534 (23%)]	Loss: 0.056972
+Train Epoch: 21 [16000/56534 (28%)]	Loss: 0.060002
+Train Epoch: 21 [19200/56534 (34%)]	Loss: 0.049943
+Train Epoch: 21 [22400/56534 (40%)]	Loss: 0.050276
+Train Epoch: 21 [25600/56534 (45%)]	Loss: 0.064490
+Train Epoch: 21 [28800/56534 (51%)]	Loss: 0.051108
+Train Epoch: 21 [32000/56534 (57%)]	Loss: 0.070342
+Train Epoch: 21 [35200/56534 (62%)]	Loss: 0.056939
+Train Epoch: 21 [38400/56534 (68%)]	Loss: 0.058547
+Train Epoch: 21 [41600/56534 (74%)]	Loss: 0.060441
+Train Epoch: 21 [44800/56534 (79%)]	Loss: 0.065068
+Train Epoch: 21 [48000/56534 (85%)]	Loss: 0.055535
+Train Epoch: 21 [51200/56534 (91%)]	Loss: 0.061711
+Train Epoch: 21 [54400/56534 (96%)]	Loss: 0.048713
+====> Epoch: 21 Average loss: 0.0589
+====> Test set loss: 0.0584 - VLB-ClassifierModel : 1.8681
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05842465614805233, 'Accuracy': 0.3900091983301493})
+Train Epoch: 22 [0/56534 (0%)]	Loss: 0.062283
+Train Epoch: 22 [3200/56534 (6%)]	Loss: 0.052458
+Train Epoch: 22 [6400/56534 (11%)]	Loss: 0.047265
+Train Epoch: 22 [9600/56534 (17%)]	Loss: 0.070536
+Train Epoch: 22 [12800/56534 (23%)]	Loss: 0.052813
+Train Epoch: 22 [16000/56534 (28%)]	Loss: 0.060090
+Train Epoch: 22 [19200/56534 (34%)]	Loss: 0.069540
+Train Epoch: 22 [22400/56534 (40%)]	Loss: 0.062019
+Train Epoch: 22 [25600/56534 (45%)]	Loss: 0.040067
+Train Epoch: 22 [28800/56534 (51%)]	Loss: 0.066355
+Train Epoch: 22 [32000/56534 (57%)]	Loss: 0.051927
+Train Epoch: 22 [35200/56534 (62%)]	Loss: 0.050129
+Train Epoch: 22 [38400/56534 (68%)]	Loss: 0.066576
+Train Epoch: 22 [41600/56534 (74%)]	Loss: 0.062442
+Train Epoch: 22 [44800/56534 (79%)]	Loss: 0.070152
+Train Epoch: 22 [48000/56534 (85%)]	Loss: 0.066454
+Train Epoch: 22 [51200/56534 (91%)]	Loss: 0.073787
+Train Epoch: 22 [54400/56534 (96%)]	Loss: 0.052111
+====> Epoch: 22 Average loss: 0.0588
+====> Test set loss: 0.0584 - VLB-ClassifierModel : 1.8688
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.058444244605352996, 'Accuracy': 0.3877449939857072})
+Train Epoch: 23 [0/56534 (0%)]	Loss: 0.057343
+Train Epoch: 23 [3200/56534 (6%)]	Loss: 0.056417
+Train Epoch: 23 [6400/56534 (11%)]	Loss: 0.070288
+Train Epoch: 23 [9600/56534 (17%)]	Loss: 0.065182
+Train Epoch: 23 [12800/56534 (23%)]	Loss: 0.055636
+Train Epoch: 23 [16000/56534 (28%)]	Loss: 0.056550
+Train Epoch: 23 [19200/56534 (34%)]	Loss: 0.059799
+Train Epoch: 23 [22400/56534 (40%)]	Loss: 0.055453
+Train Epoch: 23 [25600/56534 (45%)]	Loss: 0.053656
+Train Epoch: 23 [28800/56534 (51%)]	Loss: 0.066895
+Train Epoch: 23 [32000/56534 (57%)]	Loss: 0.054944
+Train Epoch: 23 [35200/56534 (62%)]	Loss: 0.057877
+Train Epoch: 23 [38400/56534 (68%)]	Loss: 0.049643
+Train Epoch: 23 [41600/56534 (74%)]	Loss: 0.056083
+Train Epoch: 23 [44800/56534 (79%)]	Loss: 0.061167
+Train Epoch: 23 [48000/56534 (85%)]	Loss: 0.067919
+Train Epoch: 23 [51200/56534 (91%)]	Loss: 0.055426
+Train Epoch: 23 [54400/56534 (96%)]	Loss: 0.054033
+====> Epoch: 23 Average loss: 0.0588
+====> Test set loss: 0.0584 - VLB-ClassifierModel : 1.8679
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05841664993644039, 'Accuracy': 0.38972617278709404})
+Train Epoch: 24 [0/56534 (0%)]	Loss: 0.046832
+Train Epoch: 24 [3200/56534 (6%)]	Loss: 0.057746
+Train Epoch: 24 [6400/56534 (11%)]	Loss: 0.064238
+Train Epoch: 24 [9600/56534 (17%)]	Loss: 0.049942
+Train Epoch: 24 [12800/56534 (23%)]	Loss: 0.053024
+Train Epoch: 24 [16000/56534 (28%)]	Loss: 0.050857
+Train Epoch: 24 [19200/56534 (34%)]	Loss: 0.058429
+Train Epoch: 24 [22400/56534 (40%)]	Loss: 0.066069
+Train Epoch: 24 [25600/56534 (45%)]	Loss: 0.072143
+Train Epoch: 24 [28800/56534 (51%)]	Loss: 0.049574
+Train Epoch: 24 [32000/56534 (57%)]	Loss: 0.073061
+Train Epoch: 24 [35200/56534 (62%)]	Loss: 0.052627
+Train Epoch: 24 [38400/56534 (68%)]	Loss: 0.072140
+Train Epoch: 24 [41600/56534 (74%)]	Loss: 0.055828
+Train Epoch: 24 [44800/56534 (79%)]	Loss: 0.074908
+Train Epoch: 24 [48000/56534 (85%)]	Loss: 0.049905
+Train Epoch: 24 [51200/56534 (91%)]	Loss: 0.066399
+Train Epoch: 24 [54400/56534 (96%)]	Loss: 0.057682
+====> Epoch: 24 Average loss: 0.0588
+====> Test set loss: 0.0583 - VLB-ClassifierModel : 1.8650
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05832596885620692, 'Accuracy': 0.3863298662704309})
+Train Epoch: 25 [0/56534 (0%)]	Loss: 0.062905
+Train Epoch: 25 [3200/56534 (6%)]	Loss: 0.052525
+Train Epoch: 25 [6400/56534 (11%)]	Loss: 0.055254
+Train Epoch: 25 [9600/56534 (17%)]	Loss: 0.052344
+Train Epoch: 25 [12800/56534 (23%)]	Loss: 0.068271
+Train Epoch: 25 [16000/56534 (28%)]	Loss: 0.050365
+Train Epoch: 25 [19200/56534 (34%)]	Loss: 0.069687
+Train Epoch: 25 [22400/56534 (40%)]	Loss: 0.067990
+Train Epoch: 25 [25600/56534 (45%)]	Loss: 0.067982
+Train Epoch: 25 [28800/56534 (51%)]	Loss: 0.044341
+Train Epoch: 25 [32000/56534 (57%)]	Loss: 0.069237
+Train Epoch: 25 [35200/56534 (62%)]	Loss: 0.070915
+Train Epoch: 25 [38400/56534 (68%)]	Loss: 0.058812
+Train Epoch: 25 [41600/56534 (74%)]	Loss: 0.048063
+Train Epoch: 25 [44800/56534 (79%)]	Loss: 0.053544
+Train Epoch: 25 [48000/56534 (85%)]	Loss: 0.056510
+Train Epoch: 25 [51200/56534 (91%)]	Loss: 0.053839
+Train Epoch: 25 [54400/56534 (96%)]	Loss: 0.073680
+====> Epoch: 25 Average loss: 0.0587
+====> Test set loss: 0.0584 - VLB-ClassifierModel : 1.8689
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.058449576372200454, 'Accuracy': 0.3872496992853605})
+Train Epoch: 26 [0/56534 (0%)]	Loss: 0.056664
+Train Epoch: 26 [3200/56534 (6%)]	Loss: 0.061333
+Train Epoch: 26 [6400/56534 (11%)]	Loss: 0.051370
+Train Epoch: 26 [9600/56534 (17%)]	Loss: 0.049997
+Train Epoch: 26 [12800/56534 (23%)]	Loss: 0.051177
+Train Epoch: 26 [16000/56534 (28%)]	Loss: 0.059477
+Train Epoch: 26 [19200/56534 (34%)]	Loss: 0.059578
+Train Epoch: 26 [22400/56534 (40%)]	Loss: 0.049357
+Train Epoch: 26 [25600/56534 (45%)]	Loss: 0.051116
+Train Epoch: 26 [28800/56534 (51%)]	Loss: 0.053754
+Train Epoch: 26 [32000/56534 (57%)]	Loss: 0.058655
+Train Epoch: 26 [35200/56534 (62%)]	Loss: 0.066178
+Train Epoch: 26 [38400/56534 (68%)]	Loss: 0.055451
+Train Epoch: 26 [41600/56534 (74%)]	Loss: 0.063428
+Train Epoch: 26 [44800/56534 (79%)]	Loss: 0.056941
+Train Epoch: 26 [48000/56534 (85%)]	Loss: 0.062401
+Train Epoch: 26 [51200/56534 (91%)]	Loss: 0.068461
+Train Epoch: 26 [54400/56534 (96%)]	Loss: 0.061189
+====> Epoch: 26 Average loss: 0.0587
+====> Test set loss: 0.0583 - VLB-ClassifierModel : 1.8648
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05832147653936404, 'Accuracy': 0.39121205688813415})
+Train Epoch: 27 [0/56534 (0%)]	Loss: 0.057586
+Train Epoch: 27 [3200/56534 (6%)]	Loss: 0.057728
+Train Epoch: 27 [6400/56534 (11%)]	Loss: 0.050226
+Train Epoch: 27 [9600/56534 (17%)]	Loss: 0.052747
+Train Epoch: 27 [12800/56534 (23%)]	Loss: 0.056900
+Train Epoch: 27 [16000/56534 (28%)]	Loss: 0.060191
+Train Epoch: 27 [19200/56534 (34%)]	Loss: 0.055657
+Train Epoch: 27 [22400/56534 (40%)]	Loss: 0.057943
+Train Epoch: 27 [25600/56534 (45%)]	Loss: 0.056345
+Train Epoch: 27 [28800/56534 (51%)]	Loss: 0.049743
+Train Epoch: 27 [32000/56534 (57%)]	Loss: 0.067816
+Train Epoch: 27 [35200/56534 (62%)]	Loss: 0.056266
+Train Epoch: 27 [38400/56534 (68%)]	Loss: 0.048751
+Train Epoch: 27 [41600/56534 (74%)]	Loss: 0.062097
+Train Epoch: 27 [44800/56534 (79%)]	Loss: 0.053550
+Train Epoch: 27 [48000/56534 (85%)]	Loss: 0.058490
+Train Epoch: 27 [51200/56534 (91%)]	Loss: 0.059754
+Train Epoch: 27 [54400/56534 (96%)]	Loss: 0.065091
+====> Epoch: 27 Average loss: 0.0587
+====> Test set loss: 0.0584 - VLB-ClassifierModel : 1.8667
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.0583791850116411, 'Accuracy': 0.38986768555862167})
+Train Epoch: 28 [0/56534 (0%)]	Loss: 0.062064
+Train Epoch: 28 [3200/56534 (6%)]	Loss: 0.060953
+Train Epoch: 28 [6400/56534 (11%)]	Loss: 0.053221
+Train Epoch: 28 [9600/56534 (17%)]	Loss: 0.059453
+Train Epoch: 28 [12800/56534 (23%)]	Loss: 0.054303
+Train Epoch: 28 [16000/56534 (28%)]	Loss: 0.065622
+Train Epoch: 28 [19200/56534 (34%)]	Loss: 0.057121
+Train Epoch: 28 [22400/56534 (40%)]	Loss: 0.060821
+Train Epoch: 28 [25600/56534 (45%)]	Loss: 0.052430
+Train Epoch: 28 [28800/56534 (51%)]	Loss: 0.050506
+Train Epoch: 28 [32000/56534 (57%)]	Loss: 0.055399
+Train Epoch: 28 [35200/56534 (62%)]	Loss: 0.068210
+Train Epoch: 28 [38400/56534 (68%)]	Loss: 0.051348
+Train Epoch: 28 [41600/56534 (74%)]	Loss: 0.055225
+Train Epoch: 28 [44800/56534 (79%)]	Loss: 0.062007
+Train Epoch: 28 [48000/56534 (85%)]	Loss: 0.063220
+Train Epoch: 28 [51200/56534 (91%)]	Loss: 0.058562
+Train Epoch: 28 [54400/56534 (96%)]	Loss: 0.056022
+====> Epoch: 28 Average loss: 0.0587
+====> Test set loss: 0.0584 - VLB-ClassifierModel : 1.8667
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.05838124688614843, 'Accuracy': 0.3853392768697375})
+Train Epoch: 29 [0/56534 (0%)]	Loss: 0.056071
+Train Epoch: 29 [3200/56534 (6%)]	Loss: 0.056326
+Train Epoch: 29 [6400/56534 (11%)]	Loss: 0.066596
+Train Epoch: 29 [9600/56534 (17%)]	Loss: 0.053940
+Train Epoch: 29 [12800/56534 (23%)]	Loss: 0.050304
+Train Epoch: 29 [16000/56534 (28%)]	Loss: 0.059377
+Train Epoch: 29 [19200/56534 (34%)]	Loss: 0.048276
+Train Epoch: 29 [22400/56534 (40%)]	Loss: 0.057729
+Train Epoch: 29 [25600/56534 (45%)]	Loss: 0.056024
+Train Epoch: 29 [28800/56534 (51%)]	Loss: 0.062183
+Train Epoch: 29 [32000/56534 (57%)]	Loss: 0.067531
+Train Epoch: 29 [35200/56534 (62%)]	Loss: 0.061317
+Train Epoch: 29 [38400/56534 (68%)]	Loss: 0.048944
+Train Epoch: 29 [41600/56534 (74%)]	Loss: 0.061798
+Train Epoch: 29 [44800/56534 (79%)]	Loss: 0.055661
+Train Epoch: 29 [48000/56534 (85%)]	Loss: 0.064066
+Train Epoch: 29 [51200/56534 (91%)]	Loss: 0.046558
+Train Epoch: 29 [54400/56534 (96%)]	Loss: 0.058836
+====> Epoch: 29 Average loss: 0.0586
+====> Test set loss: 0.0582 - VLB-ClassifierModel : 1.8608
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.058194842483978285, 'Accuracy': 0.38887709615792826})
+Train Epoch: 30 [0/56534 (0%)]	Loss: 0.049029
+Train Epoch: 30 [3200/56534 (6%)]	Loss: 0.058518
+Train Epoch: 30 [6400/56534 (11%)]	Loss: 0.058165
+Train Epoch: 30 [9600/56534 (17%)]	Loss: 0.058164
+Train Epoch: 30 [12800/56534 (23%)]	Loss: 0.061005
+Train Epoch: 30 [16000/56534 (28%)]	Loss: 0.048860
+Train Epoch: 30 [19200/56534 (34%)]	Loss: 0.069932
+Train Epoch: 30 [22400/56534 (40%)]	Loss: 0.048615
+Train Epoch: 30 [25600/56534 (45%)]	Loss: 0.059982
+Train Epoch: 30 [28800/56534 (51%)]	Loss: 0.068163
+Train Epoch: 30 [32000/56534 (57%)]	Loss: 0.058112
+Train Epoch: 30 [35200/56534 (62%)]	Loss: 0.056254
+Train Epoch: 30 [38400/56534 (68%)]	Loss: 0.056110
+Train Epoch: 30 [41600/56534 (74%)]	Loss: 0.047522
+Train Epoch: 30 [44800/56534 (79%)]	Loss: 0.061334
+Train Epoch: 30 [48000/56534 (85%)]	Loss: 0.040165
+Train Epoch: 30 [51200/56534 (91%)]	Loss: 0.053506
+Train Epoch: 30 [54400/56534 (96%)]	Loss: 0.064407
+====> Epoch: 30 Average loss: 0.0586
+====> Test set loss: 0.0582 - VLB-ClassifierModel : 1.8611
+defaultdict(<function VariationalBaseModel.test.<locals>.<lambda> at 0x7f1ba0d4a710>, {'loss': 0.058203121013704784, 'Accuracy': 0.39213188990306375})
