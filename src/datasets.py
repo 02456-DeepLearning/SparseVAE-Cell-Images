@@ -84,6 +84,10 @@ class Cell(Dataset):
         self.dataset_path = dataset_path
         self.train_size = train_size
         self.test_size = test_size
+
+        
+
+
         self.transform = transform
         self.fold = fold
         
