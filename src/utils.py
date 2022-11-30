@@ -37,7 +37,7 @@ def get_argparser(description):
     return parser
 
 
-def get_datasets(dataset, batch_size, cuda, root='../data'):
+def get_datasets(dataset, batch_size, cuda,fold_number=-1, root='../data'):
     # Load datasets 
     print(f'Loading {dataset} dataset...')
     if dataset == 'fashion':
@@ -62,6 +62,10 @@ def get_datasets(dataset, batch_size, cuda, root='../data'):
         width, height, channels = 64, 64, 1
     elif dataset == 'cell':
         Dataset = Cell
+        dataset_path = '../bbbc021/singlecell/metadata.csv'
+        width, height, channels = 68, 68, 3
+    elif dataset == 'cell':
+        Dataset = StratifiedCell
         dataset_path = '../bbbc021/singlecell/metadata.csv'
         width, height, channels = 68, 68, 3
     else:

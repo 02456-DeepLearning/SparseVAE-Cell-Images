@@ -38,4 +38,4 @@ module load ffmpeg/4.2.2
 ### python train_psnr.py
 ### python train_esrgan.py
 source /zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/dl-env/bin/activate
-python3 /zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/src/train-cvscc.py --dataset cell --epochs 500 --report-interval 30 --lr 0.001 --latent-size 200 --hidden-size 400 --do-not-resume
+python3 /zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/src/train-cvscc.py --dataset cell --epochs 200 --report-interval 30 --lr 0.001 --latent-size 200 --hidden-size 400 --do-not-resume

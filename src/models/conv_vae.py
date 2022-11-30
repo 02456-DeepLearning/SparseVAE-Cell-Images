@@ -107,7 +107,7 @@ class ConvolutionalVariationalAutoEncoder(VariationalBaseModel):
                  hidden_sz, latent_sz, learning_rate,
                  device, log_interval, normalize, flatten, **kwargs):
         super().__init__(dataset, width, height, channels, latent_sz,
-                         learning_rate, device, log_interval, normalize, flatten)
+                         learning_rate, device, log_interval, "CVAE",normalize, flatten)
         self.hidden_sz = int(hidden_sz)
         self.kernel_szs = [int(ks) for ks in str(kernel_szs).split(',')]
         
@@ -140,6 +140,7 @@ class ConvolutionalVariationalAutoEncoder(VariationalBaseModel):
             'LOSS': LOSS.item(),
             'BCE': BCE.item(),
             'KLD': KLD.item(),
+            'beta': self.model.beta,
         }
         if train:
             self.train_losses.append(log)
