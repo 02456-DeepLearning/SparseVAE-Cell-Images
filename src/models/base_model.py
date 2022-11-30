@@ -51,8 +51,6 @@ class VariationalBaseModel():
             loss, log = self.loss_function(output[0],y)
         else:
             raise Exception('SOMETHING WRONG IN STEP FUNCTION')
-             
-
         if train:
             loss.backward()
             self.optimizer.step()
