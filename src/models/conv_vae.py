@@ -105,9 +105,9 @@ class ConvVAE(nn.Module):
 class ConvolutionalVariationalAutoEncoder(VariationalBaseModel):
     def __init__(self, dataset, width, height, channels, kernel_szs,
                  hidden_sz, latent_sz, learning_rate,
-                 device, log_interval, normalize, flatten, **kwargs):
+                 device, log_interval, normalize, flatten, model_type= "CVAE", **kwargs):
         super().__init__(dataset, width, height, channels, latent_sz,
-                         learning_rate, device, log_interval, "CVAE",normalize, flatten)
+                         learning_rate, device, log_interval, model_type,normalize, flatten)
         self.hidden_sz = int(hidden_sz)
         self.kernel_szs = [int(ks) for ks in str(kernel_szs).split(',')]
         
