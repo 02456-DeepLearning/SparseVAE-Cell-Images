@@ -38,32 +38,22 @@ class VariationalBaseModel():
         raise NotImplementedError
     
     
-    def step(self, data, train=False):
-        
-        
+    def step(self, data, y, train=False):
         if train:
             self.optimizer.zero_grad()
         output = self.model(data)
         
-  
-        #test_sz = 3
-        if 3 == 3: # VAE
-            decoded_data = output[0]
-           
-            mu = output[1]
-    
-            logvar = output[2]
-            
-            loss, log = self.loss_function(data, decoded_data, mu, logvar)
-        else: # Sparse VAE
+        if len(output) == 3: # VAE
+            loss, log = self.loss_function(data, output[0], output[1], output[2])
+        elif len(output) == 4: # Sparse VAE
             loss, log = self.loss_function(data, *output)
-             
-
+        elif len(output) == 1: # classifier
+            loss, log = self.loss_function(output[0],y)
+        else:
+            raise Exception('SOMETHING WRONG IN STEP FUNCTION')
         if train:
-         
             loss.backward()
             self.optimizer.step()
-
 
         return loss.item(), log
     
@@ -105,9 +95,10 @@ class VariationalBaseModel():
 
         logs = defaultdict(lambda: 0)
         
-        for batch_idx, (data, _) in enumerate(train_loader):
+        for batch_idx, (data, y) in enumerate(train_loader):
             data = self.transform(data).to(self.device)
-            loss, log = self.step(data, train=True)
+            y = y.to(self.device)
+            loss, log = self.step(data, y,train=True)
             train_loss += loss
             
             for key, value in log.items():
@@ -139,9 +130,10 @@ class VariationalBaseModel():
         logs = defaultdict(lambda: 0)
 
         with torch.no_grad():
-            for data, _ in test_loader:
+            for data, y in test_loader:
                 data = self.transform(data).to(self.device)
-                loss, log = self.step(data, train=False)
+                y = y.to(self.device)
+                loss, log = self.step(data, y,train=False)
                 test_loss += loss
                 for key, value in log.items():
                     logs[key] += value
@@ -212,6 +204,7 @@ class VariationalBaseModel():
         for epoch in range(start_epoch, start_epoch + epochs):
             train_loss, logs = self.train(train_loader, epoch, logging_func)
             test_loss, logs = self.test(test_loader, epoch, logging_func)
+            print(logs)
             # Store log
             # pdb.set_trace()
             logger.scalar_summary(train_loss, test_loss, epoch, logs)
