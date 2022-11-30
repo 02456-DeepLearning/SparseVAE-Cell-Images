@@ -42,12 +42,6 @@ class VariationalBaseModel():
         if train:
             self.optimizer.zero_grad()
         output = self.model(data)
-<<<<<<< HEAD
-        # recon_x, mu, logvar, logspike= output
-        #pdb.set_trace()
-        loss, log = self.loss_function(data, *output)
- 
-=======
         
         if len(output) == 3: # VAE
             loss, log = self.loss_function(data, output[0], output[1], output[2])
@@ -57,9 +51,7 @@ class VariationalBaseModel():
             loss, log = self.loss_function(output[0],y)
         else:
             raise Exception('SOMETHING WRONG IN STEP FUNCTION')
-             
 
->>>>>>> b930c83e0c63d3a7d5e930a93630388039c41611
         if train:
             loss.backward()
             self.optimizer.step()

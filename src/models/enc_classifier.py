@@ -48,12 +48,8 @@ class ClassifierModelFull(VariationalBaseModel):
         self.kernel_szs = [int(ks) for ks in str(kernel_szs).split(',')]
         self.conv_vsc = ConvVSC(self.input_sz_tup, self.kernel_szs, self.hidden_sz,
                              latent_sz, **kwargs).to(device)
-<<<<<<< HEAD
-        self.load_specific_model('/zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/results/checkpoints/ConvVSC_cell_1_500_204_0-0001_12.pth')
-=======
-        self.load_specific_model('/zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/results/checkpoints/ConvVSC_cell_1_481_200_0-001_420.pth')
 
->>>>>>> b930c83e0c63d3a7d5e930a93630388039c41611
+        self.load_specific_model('/zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/results/checkpoints/ConvVSC_cell_1_481_200_0-001_420.pth')
         self.model = ClassifierModel(self.conv_vsc, 13).to(device)
         self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
     
