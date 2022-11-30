@@ -5,6 +5,8 @@ from torch import nn, optim
 from torch.nn import functional as F
 import numpy as np
 import pandas as pd
+import sys
+import matplotlib.pyplot as plt
 
 from utils import get_datasets
 
@@ -46,12 +48,19 @@ class VisualizerUtilModelFull(VariationalBaseModel):
         self.kernel_szs = [int(ks) for ks in str(kernel_szs).split(',')]
         self.conv_vsc = ConvVSC(self.input_sz_tup, self.kernel_szs, self.hidden_sz,
                              latent_sz, **kwargs).to(device)
-        self.load_specific_model('/zhome/2b/d/156632/Desktop/deeplearning/Variational-Sparse-Coding/results/checkpoints/ConvVSC_cell_1_481_200_0-001_420.pth')
+        self.conv_vsc_2 = ConvVSC(self.input_sz_tup, self.kernel_szs, self.hidden_sz,
+                             latent_sz, **kwargs).to(device)
+        
+        MODEL_PATH = '/zhome/2b/d/156632/Desktop/deeplearning/Variational-Sparse-Coding/results/checkpoints/ConvVSC_cell_1_481_200_0-001_30.pth'
+        MODEL_PATH_2 = '/zhome/2b/d/156632/Desktop/deeplearning/Variational-Sparse-Coding/results/checkpoints/ConvVSC_cell_1_481_200_0-001_420.pth'
+        self.load_specific_model(self.conv_vsc, MODEL_PATH)
+        self.load_specific_model(self.conv_vsc_2, MODEL_PATH_2)
         self.model = VisualizerUtilModel(self.conv_vsc, 13).to(device)
+        self.model_2 = VisualizerUtilModel(self.conv_vsc_2, 13).to(device)
     
     #Auxiliary function to continue training from last trained models
-    def load_specific_model(self, model_path, logging_func=print):
-        self.conv_vsc.load_state_dict(torch.load(model_path))
+    def load_specific_model(self, conv_vsc, model_path, logging_func=print):
+        conv_vsc.load_state_dict(torch.load(model_path))
         logging_func(f'Loading trained model from {model_path}')
 
         return 0
@@ -67,9 +76,42 @@ class VisualizerUtilModelFull(VariationalBaseModel):
         df = pd.DataFrame(labels)
         df.to_csv('tsne-data/labels.tsv', mode='a', sep='\t',header=False,index=False)
 
+    def decode_and_write(self, batch):
+        f, axarr = plt.subplots(3,3)
+
+        reconstruction,_,_,_ = self.conv_vsc.forward(batch)
+        reconstruction = np.moveaxis(reconstruction.cpu().numpy(),[0,1,2,3],[0,3,2,1])
+        img_0_recon = reconstruction[0:3,:,:,:]
+
+        reconstruction_2,_,_,_ = self.conv_vsc_2.forward(batch)
+        reconstruction_2 = np.moveaxis(reconstruction_2.cpu().numpy(),[0,1,2,3],[0,3,2,1])
+        img_0_recon_2 = reconstruction_2[0:3,:,:,:]
+
+        imgs = np.moveaxis(batch.cpu().numpy(),[0,1,2,3],[0,3,2,1])
+        img_0 = imgs[0:3,:,:,:]
+
+        # plt.imsave("test.png", batch[])
+        # plt.imsave("test_recon.png", img_0/img_0.max(axis=(0,1)))
+
+        for i in range(3):
+            axarr[i,0].imshow(img_0[i]/img_0[i].max(axis=(0,1)))
+            axarr[i,1].imshow(img_0_recon[i]/img_0_recon[i].max(axis=(0,1)))
+            axarr[i,2].imshow(img_0_recon_2[i]/img_0_recon_2[i].max(axis=(0,1)))
+        plt.savefig("test_recon.png")
+
+        # pdb.set_trace()
+
+
 
 
 if __name__ == "__main__":    
+    # which visualization operation to run
+    # ["embed","{{START}}","{{END}}"] => write .tsv files with embeddings and labels for batch_idx in range (START, END)
+    # ["recon","{{START}}","{{END}}"] => plot original images next to reconstruction
+    # ""
+    viz_type = sys.argv[1]
+    START, END = (int(sys.argv[2]), int(sys.argv[3]))
+    
     dataset = "cell"
     epochs = 200
     kernel_size = '32,32,68,68' # parameters
@@ -91,21 +133,24 @@ if __name__ == "__main__":
     visualizer = VisualizerUtilModelFull(dataset, width, height, channels, 
                                   kernel_size, hidden_size, latent_size, learning_rate,
                                   alpha, device, log_interval, normalize, flatten)
-    # self, dataset, width, height, channels, kernel_szs,
-    #              hidden_sz, latent_sz, learning_rate, alpha,
-    #              device, log_interval, normalize, flatten, **kwargs):
+    
     #Set reproducibility seed
     seed = 123
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
     
-
-    for batch_idx, (batch,y) in enumerate(train_loader,312):
-        print(batch_idx)
-        if batch_idx > 312*1.5:
-            break
-        data = visualizer.transform(batch).to(visualizer.device)
-        # pdb.set_trace()
-        visualizer.encode_and_write(data,y)
-        # pdb.set_trace()
-    
+    if viz_type=="embed":
+        for batch_idx, (batch,y) in enumerate(train_loader,START):
+            if batch_idx > END:
+                break
+            data = visualizer.transform(batch).to(visualizer.device)
+            # pdb.set_trace()
+            visualizer.encode_and_write(data,y)
+            # pdb.set_trace()
+    elif viz_type=="recon":
+        for batch_idx, (batch,y) in enumerate(train_loader,START):
+            if batch_idx > END:
+                break
+            data = visualizer.transform(batch).to(visualizer.device)
+            # pdb.set_trace()
+            visualizer.decode_and_write(data)
