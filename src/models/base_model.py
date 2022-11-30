@@ -198,7 +198,7 @@ class VariationalBaseModel():
             start_epoch = self.load_last_model(checkpoints_path, logging_func) \
                                            if reload_model else 1
         name = self.model.__class__.__name__
-        run_name = f'{name}_{self.dataset}_{start_epoch}_{epochs}_' \
+        run_name = f'{self.model_type}_{name}_{self.dataset}_{start_epoch}_{epochs}_' \
                    f'{self.latent_sz}_{str(self.lr).replace(".", "-")}'
         logger = Logger(f'{logs_path}/{run_name}')
         logging_func(f'Training {name} model...')
@@ -210,7 +210,7 @@ class VariationalBaseModel():
             # pdb.set_trace()
             logger.scalar_summary(train_loss, test_loss, epoch, logs)
             # Optional update
-            #self.update_()
+            self.update_()
             # For each report interval store model and save images
             if epoch % report_interval == 0:
                 with torch.no_grad():
@@ -223,7 +223,7 @@ class VariationalBaseModel():
                     ## Store sample plots
                     save_image(sample.view(sample_sz, self.channels, self.height,
                                            self.width),
-                               f'{images_path}/sample_{run_name}_{epoch}_{self.model_type}.png')
+                               f'{images_path}/sample_{run_name}_{epoch}.png')
                     ## Store Model
                     torch.save(self.model.state_dict(), 
-                               f'{checkpoints_path}/{run_name}_{epoch}_{self.model_type}.pth')
+                               f'{checkpoints_path}/{run_name}_{epoch}.pth')

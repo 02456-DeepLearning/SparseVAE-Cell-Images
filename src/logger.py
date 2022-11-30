@@ -26,6 +26,7 @@ class Logger(object):
         # summary = self.session.run(self.merged, {self.loss: train_loss})
         # self.train_writer.add_summary(summary, step) 
         # pdb.set_trace()
+        print('saving logs', logs, epoch)
         with self.train_writer.as_default():
             tf.summary.scalar(name='train loss', step=epoch, data=train_loss)
 

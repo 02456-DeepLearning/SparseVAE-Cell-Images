@@ -121,16 +121,16 @@ class ConvVSC(nn.Module):
 class ConvolutionalVariationalSparseCoding(VariationalBaseModel):
     def __init__(self, dataset, width, height, channels, kernel_szs,
                  hidden_sz, latent_sz, learning_rate, alpha,
-                 device, log_interval, normalize, flatten, model_type = "SCVAE", **kwargs):
+                 device, log_interval, normalize, flatten, model_type = "SCVAE",beta_delta=0, **kwargs):
         super().__init__(dataset, width, height, channels, latent_sz,
-                         learning_rate, device, log_interval, normalize, 
-                         flatten, model_type=model_type)
+                         learning_rate, device, log_interval,model_type, normalize, 
+                         flatten)
         self.alpha = alpha
         self.hidden_sz = int(hidden_sz)
         self.kernel_szs = [int(ks) for ks in str(kernel_szs).split(',')]
 
         self.model = ConvVSC(self.input_sz_tup, self.kernel_szs, self.hidden_sz,
-                             latent_sz, **kwargs).to(device)
+                             latent_sz,beta_delta=beta_delta, **kwargs).to(device)
 
         print(self.model)
         self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
@@ -161,7 +161,10 @@ class ConvolutionalVariationalSparseCoding(VariationalBaseModel):
             'BCE': BCE.item(),
             'PRIOR': PRIOR.item(),
             'prior1': prior1.item(),
-            'prior2': prior2.item()
+            'prior2': prior2.item(),
+            'c': self.model.c,
+            'beta': self.model.beta,
+            'alpha': self.alpha
         }
 
         if train:
@@ -174,7 +177,7 @@ class ConvolutionalVariationalSparseCoding(VariationalBaseModel):
     
     def update_(self):
         # Update value of c gradually 200 ( 150 / 20K = 0.0075 )
-        print('updated c and beta', self.c,self.beta)
+        print('updated c and beta', self.model.c,self.model.beta)
         self.model.update_c()
         self.model.update_beta()
         

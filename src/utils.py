@@ -37,8 +37,10 @@ def get_argparser(description):
     return parser
 
 
-def get_datasets(dataset, batch_size, cuda, root='../data'):
+def get_datasets(dataset, batch_size, cuda,fold_number=-1, root='../data'):
     # Load datasets 
+    kwargs = {'num_workers': 1, 'pin_memory': True} if cuda else {}
+
     print(f'Loading {dataset} dataset...')
     if dataset == 'fashion':
         Dataset = datasets.FashionMNIST
@@ -64,10 +66,24 @@ def get_datasets(dataset, batch_size, cuda, root='../data'):
         Dataset = Cell
         dataset_path = '../bbbc021/singlecell/metadata.csv'
         width, height, channels = 68, 68, 3
+    elif dataset == 'stratifiedcell':
+        Dataset = StratifiedCell
+        dataset_path = '../bbbc021/singlecell/metadata.csv'
+        width, height, channels = 68, 68, 3
+
+        train_loader = DataLoader(Dataset(dataset_path, train=True, download=True,
+                                      transform=transforms.ToTensor()), 
+                              batch_size=batch_size, shuffle=True, **kwargs)
+
+        test_loader = DataLoader(Dataset(dataset_path, train=False, download=True,
+                                        transform=transforms.ToTensor()),
+                                batch_size=batch_size, shuffle=True, **kwargs)
+        
+        return train_loader, test_loader, (width, height, channels)
     else:
         raise ValueError('Dataset not supported')
 
-    kwargs = {'num_workers': 1, 'pin_memory': True} if cuda else {}
+    
         
     train_loader = DataLoader(Dataset(dataset_path, train=True, download=True,
                                       transform=transforms.ToTensor()), 
