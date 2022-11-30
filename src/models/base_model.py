@@ -5,13 +5,15 @@ from pathlib import Path
 from glob import glob
 import pandas as pd
 from tqdm import tqdm
+from collections import defaultdict
 
 from logger import Logger
 
 class VariationalBaseModel():
     def __init__(self, dataset, width, height, channels, latent_sz, 
-                 learning_rate, device, log_interval, normalize=False, 
-                 flatten=True):
+                 learning_rate, device, log_interval, model_type = "CVAE", normalize=False, 
+                 flatten=False):
+        self.model_type = model_type
         self.dataset = dataset
         self.width = width
         self.height = height
@@ -20,7 +22,7 @@ class VariationalBaseModel():
         self.input_sz = channels*width*height
         self.input_sz_tup = (channels,width,height)
         self.latent_sz = latent_sz
-        
+    
         self.lr = learning_rate
         self.device = device
         self.log_interval = log_interval
@@ -36,19 +38,22 @@ class VariationalBaseModel():
         raise NotImplementedError
     
     
-    def step(self, data, train=False):
-
+    def step(self, data, y, train=False):
         if train:
             self.optimizer.zero_grad()
         output = self.model(data)
-        # recon_x, mu, logvar, logspike= output
-        #pdb.set_trace()
-        loss, log = self.loss_function(data, *output)
- 
+        
+        if len(output) == 3: # VAE
+            loss, log = self.loss_function(data, output[0], output[1], output[2])
+        elif len(output) == 4: # Sparse VAE
+            loss, log = self.loss_function(data, *output)
+        elif len(output) == 1: # classifier
+            loss, log = self.loss_function(output[0],y)
+        else:
+            raise Exception('SOMETHING WRONG IN STEP FUNCTION')
         if train:
             loss.backward()
             self.optimizer.step()
-
 
         return loss.item(), log
     
@@ -88,23 +93,17 @@ class VariationalBaseModel():
         self.model.train()
         train_loss = 0
 
-        logs = {
-            'LOSS': 0,
-            'BCE': 0,
-            'PRIOR': 0,
-            'prior1': 0,
-            'prior2': 0
-        }
+        logs = defaultdict(lambda: 0)
         
-        for batch_idx, (data, _) in enumerate(train_loader):
+        for batch_idx, (data, y) in enumerate(train_loader):
             data = self.transform(data).to(self.device)
-            loss, log = self.step(data, train=True)
+            y = y.to(self.device)
+            loss, log = self.step(data, y,train=True)
             train_loss += loss
-            logs['LOSS'] += log['LOSS']
-            logs['BCE'] += log['BCE']
-            logs['PRIOR'] += log['PRIOR']
-            logs['prior1'] += log['prior1']
-            logs['prior2'] += log['prior2']
+            
+            for key, value in log.items():
+                logs[key] += value
+            
             if batch_idx % self.log_interval == 0:
                 logging_func('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}' \
                       .format(epoch, batch_idx * len(data), 
@@ -116,11 +115,10 @@ class VariationalBaseModel():
               epoch, train_loss / len(train_loader.dataset)))
 
         final_loss = train_loss / len(train_loader.dataset)
-        logs['LOSS'] /= len(train_loader.dataset)
-        logs['BCE'] /= len(train_loader.dataset)
-        logs['PRIOR'] /= len(train_loader.dataset)
-        logs['prior1'] /= len(train_loader.dataset)
-        logs['prior2'] /= len(train_loader.dataset)
+        
+        for key, value in logs.items():
+                logs[key] /= len(train_loader.dataset)
+                
         return final_loss, logs
         
         
@@ -129,24 +127,16 @@ class VariationalBaseModel():
         self.model.eval()
         test_loss = 0
         
-        logs = {
-            'LOSS': 0,
-            'BCE': 0,
-            'PRIOR': 0,
-            'prior1': 0,
-            'prior2': 0
-        }
+        logs = defaultdict(lambda: 0)
 
         with torch.no_grad():
-            for data, _ in test_loader:
+            for data, y in test_loader:
                 data = self.transform(data).to(self.device)
-                loss, log = self.step(data, train=False)
+                y = y.to(self.device)
+                loss, log = self.step(data, y,train=False)
                 test_loss += loss
-                logs['LOSS'] += log['LOSS']
-                logs['BCE'] += log['BCE']
-                logs['PRIOR'] += log['PRIOR']
-                logs['prior1'] += log['prior1']
-                logs['prior2'] += log['prior2']
+                for key, value in log.items():
+                    logs[key] += value
                 
                 
         VLB = test_loss / len(test_loader)
@@ -155,11 +145,9 @@ class VariationalBaseModel():
         test_loss /= len(test_loader.dataset) 
         logging_func(f'====> Test set loss: {test_loss:.4f} - VLB-{name} : {VLB:.4f}')
 
-        logs['LOSS'] /= len(test_loader.dataset) 
-        logs['BCE'] /= len(test_loader.dataset) 
-        logs['PRIOR'] /= len(test_loader.dataset) 
-        logs['prior1'] /= len(test_loader.dataset) 
-        logs['prior2'] /= len(test_loader.dataset) 
+        for key, value in logs.items():
+                logs[key] /= len(test_loader.dataset)
+                
         return test_loss, logs
     
     
@@ -216,6 +204,7 @@ class VariationalBaseModel():
         for epoch in range(start_epoch, start_epoch + epochs):
             train_loss, logs = self.train(train_loader, epoch, logging_func)
             test_loss, logs = self.test(test_loader, epoch, logging_func)
+            print(logs)
             # Store log
             # pdb.set_trace()
             logger.scalar_summary(train_loss, test_loss, epoch, logs)
@@ -233,7 +222,7 @@ class VariationalBaseModel():
                     ## Store sample plots
                     save_image(sample.view(sample_sz, self.channels, self.height,
                                            self.width),
-                               f'{images_path}/sample_{run_name}_{epoch}.png')
+                               f'{images_path}/sample_{run_name}_{epoch}_{self.model_type}.png')
                     ## Store Model
                     torch.save(self.model.state_dict(), 
-                               f'{checkpoints_path}/{run_name}_{epoch}.pth')
+                               f'{checkpoints_path}/{run_name}_{epoch}_{self.model_type}.pth')

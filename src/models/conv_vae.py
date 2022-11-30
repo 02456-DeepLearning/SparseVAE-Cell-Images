@@ -3,13 +3,14 @@ import numpy as np
 import torch
 from torch import nn, optim
 from torch.nn import functional as F
+import pdb
 
 from .base_model import VariationalBaseModel
 
 # Convolutional Variational AutoEncoder Model 
 class ConvVAE(nn.Module):
-    def __init__(self, input_sz: Tuple[int, int, int] = (3, 64, 64), 
-                 kernel_szs: List[int] = [32, 32, 64, 64], 
+    def __init__(self, input_sz: Tuple[int, int, int] = (3, 68, 68), 
+                 kernel_szs: List[int] = [32, 32, 68, 68], 
                  hidden_sz: int = 256,
                  latent_sz: int = 32,
                  beta: float = 0.1,
@@ -52,17 +53,24 @@ class ConvVAE(nn.Module):
             nn.Linear(self.hidden_sz, self.flat_conv_output_sz), nn.ReLU()
         )
         
+        # Black magic 
+        strides = [2,2,2,2]
+        paddings = [1,1,1,1]
+        
+        
         deconv_modules = [(
             nn.ConvTranspose2d(self.channel_szs[-i-1], 
                                self.channel_szs[-i-2],
-                               (4, 4), stride=2, padding=1),
+                               (8, 8) if i==len(kernel_szs)-1 else (4, 4),
+                               stride=strides[i], padding=paddings[i]
+                            ),
             nn.ReLU() if i < len(kernel_szs) - 1 else nn.Sigmoid()
             ) for i in range(len(kernel_szs))
         ]
-        
-        self.conv_decoder = nn.Sequential(*[
+        print(self.channel_szs,"********")
+        self.conv_decoder = nn.Sequential(*[ 
             layer for module in deconv_modules for layer in module
-        ])        
+        ])      
         
 
     def encode(self, x):
@@ -87,7 +95,7 @@ class ConvVAE(nn.Module):
     def forward(self, x):
         mu, logvar = self.encode(x)
         z = self.reparameterize(mu, logvar)
-        return self.decode(z), mu, logvar
+        return (self.decode(z), mu, logvar)
     
     def update_beta(self):
         # Gradually adjust beta
@@ -103,7 +111,7 @@ class ConvolutionalVariationalAutoEncoder(VariationalBaseModel):
         self.hidden_sz = int(hidden_sz)
         self.kernel_szs = [int(ks) for ks in str(kernel_szs).split(',')]
         
-        self.model = ConvVAE(self.input_sz, self.kernel_szs, self.hidden_sz,
+        self.model = ConvVAE(self.input_sz_tup, self.kernel_szs, self.hidden_sz,
                              latent_sz, **kwargs).to(device)
         self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
         self.train_losses = []
@@ -112,30 +120,33 @@ class ConvolutionalVariationalAutoEncoder(VariationalBaseModel):
     
     # Reconstruction + KL divergence losses summed over all elements of batch
     def loss_function(self, x, recon_x, mu, logvar, train=False):
+
         # Reconstruction term sum (mean?) per batch
         flat_input_sz = np.prod(self.input_sz)
+
         BCE = F.binary_cross_entropy(recon_x.view(-1, flat_input_sz), 
                                      x.view(-1, flat_input_sz),
                                      size_average = False)
+
         # see Appendix B from VAE paper:
         # Kingma and Welling. Auto-Encoding Variational Bayes. ICLR, 2014
         # https://arxiv.org/abs/1312.6114
         # 0.5 * sum(1 + log(sigma^2) - mu^2 - sigma^2)
         KLD = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
-        
+
         LOSS = BCE + self.model.beta * KLD
+
         log = {
             'LOSS': LOSS.item(),
             'BCE': BCE.item(),
             'KLD': KLD.item(),
         }
-
         if train:
             self.train_losses.append(log)
         else:
             self.test_losses.append(log)
 
-        return LOSS
+        return LOSS, log
     
     def update_(self):
         self.model.update_beta()

@@ -32,7 +32,7 @@ if __name__ == "__main__":
     vsc = ConvolutionalVariationalSparseCoding(args.dataset, width, height, channels, 
                                   args.kernel_size, args.hidden_size, args.latent_size, 
                                   args.lr, args.alpha, device, args.log_interval,
-                                  args.normalize,flatten=False)
+                                  args.normalize,flatten=False, model_type="SCVAE")
     vsc.run_training(train_loader, test_loader, args.epochs,
                      args.report_interval, args.sample_size, 
                      reload_model=not args.do_not_resume)
