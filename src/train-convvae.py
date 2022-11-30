@@ -1,17 +1,17 @@
 import torch
 import pdb
 from utils import get_argparser, get_datasets
-from models.conv_vsc import ConvolutionalVariationalSparseCoding
+from models.conv_vae import ConvolutionalVariationalAutoEncoder
 from models.enc_classifier import ClassifierModelFull
 
 if __name__ == "__main__":    
-    parser = get_argparser('ConvVSC Example')
+    parser = get_argparser('ConvVAE Example')
     parser.add_argument('--alpha', default=0.5, type=float, metavar='A', 
                     help='value of spike variable (default: 0.5')
     parser.add_argument('--kernel-size', type=str, default='32,32,68,68', metavar='HS',
                         help='kernel sizes, separated by commas (default: 32,32,68,68)')
     args = parser.parse_args()
-    print('ConvVSC Baseline Experiments\n')
+    print('ConvVAE Baseline Experiments\n')
     args.cuda = not args.no_cuda and torch.cuda.is_available()
 
     #Set reproducibility seed
@@ -28,12 +28,11 @@ if __name__ == "__main__":
                                                                         args.cuda)
     
     # Tune the learning rate (All training rates used were between 0.001 and 0.01)
-
-    vsc = ConvolutionalVariationalSparseCoding(args.dataset, width, height, channels, 
+    cvae = ConvolutionalVariationalAutoEncoder(args.dataset, width, height, channels, 
                                   args.kernel_size, args.hidden_size, args.latent_size, 
-                                  args.lr, args.alpha, device, args.log_interval,
-                                  args.normalize,flatten=False, model_type="SCVAE")
-    vsc.run_training(train_loader, test_loader, args.epochs,
+                                  args.lr, device, args.log_interval,
+                                  args.normalize,flatten=False)
+    cvae.run_training(train_loader, test_loader, args.epochs,
                      args.report_interval, args.sample_size, 
                      reload_model=not args.do_not_resume)
     

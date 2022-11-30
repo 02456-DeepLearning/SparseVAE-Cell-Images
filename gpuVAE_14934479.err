@@ -1,0 +1,55 @@
+Loaded dependency [python3/3.7.14]: gcc/10.3.0-binutils-2.36.1
+Loaded module: python3/3.7.14
+
+Loading python3/3.7.14
+  Loading requirement: gcc/10.3.0-binutils-2.36.1
+Loaded module: cuda/10.2
+Loaded module: cudnn/v8.3.2.44-prod-cuda-10.2
+Loaded module: ffmpeg/4.2.2
+2022-11-28 12:09:43.173057: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcuda.so.1
+2022-11-28 12:09:43.173553: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1561] Found device 0 with properties: 
+pciBusID: 0000:d8:00.0 name: Tesla V100-PCIE-32GB computeCapability: 7.0
+coreClock: 1.38GHz coreCount: 80 deviceMemorySize: 31.75GiB deviceMemoryBandwidth: 836.37GiB/s
+2022-11-28 12:09:43.176922: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcudart.so.10.1'; dlerror: libcudart.so.10.1: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /appl/cudnn/v8.3.2.44-prod-cuda-10.2/lib:/appl/cuda/10.2/lib64:/appl/python/3.7.14/lib:/appl/gcc/10.3.0-binutils-2.36.1/lib64:/appl/gcc/10.3.0-binutils-2.36.1/lib:/lsf/10.1/linux3.10-glibc2.17-x86_64/lib
+2022-11-28 12:09:43.220640: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+2022-11-28 12:09:43.246516: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10
+2022-11-28 12:09:43.253740: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10
+2022-11-28 12:09:43.301395: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10
+2022-11-28 12:09:43.307649: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10
+2022-11-28 12:09:43.309011: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcudnn.so.7'; dlerror: libcudnn.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /appl/cudnn/v8.3.2.44-prod-cuda-10.2/lib:/appl/cuda/10.2/lib64:/appl/python/3.7.14/lib:/appl/gcc/10.3.0-binutils-2.36.1/lib64:/appl/gcc/10.3.0-binutils-2.36.1/lib:/lsf/10.1/linux3.10-glibc2.17-x86_64/lib
+2022-11-28 12:09:43.309024: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1598] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+2022-11-28 12:09:43.309370: I tensorflow/core/platform/cpu_feature_guard.cc:143] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 AVX512F FMA
+2022-11-28 12:09:43.318812: I tensorflow/core/platform/profile_utils/cpu_utils.cc:102] CPU Frequency: 2800000000 Hz
+2022-11-28 12:09:43.318920: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x102afb40 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2022-11-28 12:09:43.318929: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2022-11-28 12:09:43.320156: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1102] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-11-28 12:09:43.320170: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1108]      
+/zhome/0f/f/137116/.local/lib/python3.7/site-packages/torch/nn/_reduction.py:42: UserWarning: size_average and reduce args will be deprecated, please use reduction='sum' instead.
+  warnings.warn(warning.format(ret))
+Traceback (most recent call last):
+  File "/zhome/0f/f/137116/Desktop/DeepLearningProject/SparseVAE-Cell-Images/src/train-vae.py", line 31, in <module>
+    args.report_interval, args.sample_size)
+  File "/zhome/0f/f/137116/Desktop/DeepLearningProject/SparseVAE-Cell-Images/src/models/base_model.py", line 208, in run_training
+    logger.scalar_summary(train_loss, test_loss, epoch, logs)
+  File "/zhome/0f/f/137116/Desktop/DeepLearningProject/SparseVAE-Cell-Images/src/logger.py", line 33, in scalar_summary
+    tf.summary.scalar(name=key, step=epoch, data=value)
+  File "/zhome/0f/f/137116/.local/lib/python3.7/site-packages/tensorboard/plugins/scalar/summary_v2.py", line 63, in scalar
+    tf.debugging.assert_scalar(data)
+  File "/zhome/0f/f/137116/.local/lib/python3.7/site-packages/tensorflow/python/ops/check_ops.py", line 2096, in assert_scalar_v2
+    assert_scalar(tensor=tensor, message=message, name=name)
+  File "/zhome/0f/f/137116/.local/lib/python3.7/site-packages/tensorflow/python/ops/check_ops.py", line 2121, in assert_scalar
+    tensor = ops.convert_to_tensor(tensor, name=name_scope)
+  File "/zhome/0f/f/137116/.local/lib/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1341, in convert_to_tensor
+    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)
+  File "/zhome/0f/f/137116/.local/lib/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 321, in _constant_tensor_conversion_function
+    return constant(v, dtype=dtype, name=name)
+  File "/zhome/0f/f/137116/.local/lib/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 262, in constant
+    allow_broadcast=True)
+  File "/zhome/0f/f/137116/.local/lib/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 270, in _constant_impl
+    t = convert_to_eager_tensor(value, ctx, dtype)
+  File "/zhome/0f/f/137116/.local/lib/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 96, in convert_to_eager_tensor
+    return ops.EagerTensor(value, ctx.device_name, dtype)
+  File "/zhome/0f/f/137116/.local/lib/python3.7/site-packages/torch/_tensor.py", line 955, in __array__
+    return self.numpy()
+TypeError: can't convert cuda:0 device type tensor to numpy. Use Tensor.cpu() to copy the tensor to host memory first.

@@ -38,4 +38,4 @@ module load ffmpeg/4.2.2
 ### python train_psnr.py
 ### python train_esrgan.py
 source /zhome/0f/f/137116/Desktop/DeepLearningProject/SparseVAE-Cell-Images/dl-env/bin/activate
-python3 /zhome/0f/f/137116/Desktop/DeepLearningProject/SparseVAE-Cell-Images/src/train-vae.py --dataset cell --epochs 200 --report-interval 50 --lr 0.001
+python3 /zhome/0f/f/137116/Desktop/DeepLearningProject/SparseVAE-Cell-Images/src/train-convvae.py --dataset cell --epochs 500 --report-interval 20 --lr 0.001

@@ -120,10 +120,10 @@ class ConvVSC(nn.Module):
 class ConvolutionalVariationalSparseCoding(VariationalBaseModel):
     def __init__(self, dataset, width, height, channels, kernel_szs,
                  hidden_sz, latent_sz, learning_rate, alpha,
-                 device, log_interval, normalize, flatten, **kwargs):
+                 device, log_interval, normalize, flatten, model_type = "SCVAE", **kwargs):
         super().__init__(dataset, width, height, channels, latent_sz,
                          learning_rate, device, log_interval, normalize, 
-                         flatten)
+                         flatten, model_type=model_type)
         self.alpha = alpha
         self.hidden_sz = int(hidden_sz)
         self.kernel_szs = [int(ks) for ks in str(kernel_szs).split(',')]
