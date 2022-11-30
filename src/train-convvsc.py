@@ -27,13 +27,12 @@ if __name__ == "__main__":
     print(f'Using {device} device...')
     
     #Load datasets
-    if args.fold_number == ""
     train_loader, test_loader, (width, height, channels) = get_datasets(args.dataset,
                                                                         args.batch_size,
-                                                                        args.cuda)
+                                                                        args.cuda,fold_number=args.fold_number)
     
     # Tune the learning rate (All training rates used were between 0.001 and 0.01)
-
+    pdb.set_trace()
     vsc = ConvolutionalVariationalSparseCoding(args.dataset, width, height, channels, 
                                   args.kernel_size, args.hidden_size, args.latent_size, 
                                   args.lr, args.alpha, device, args.log_interval,

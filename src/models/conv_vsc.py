@@ -162,7 +162,7 @@ class ConvolutionalVariationalSparseCoding(VariationalBaseModel):
             'PRIOR': PRIOR.item(),
             'prior1': prior1.item(),
             'prior2': prior2.item(),
-            'alpha': self.model.c,
+            'c': self.model.c,
             'beta': self.model.beta,
             'alpha': self.alpha
         }
@@ -177,7 +177,7 @@ class ConvolutionalVariationalSparseCoding(VariationalBaseModel):
     
     def update_(self):
         # Update value of c gradually 200 ( 150 / 20K = 0.0075 )
-        print('updated c and beta', self.c,self.beta)
+        print('updated c and beta', self.model.c,self.model.beta)
         self.model.update_c()
         self.model.update_beta()
         
