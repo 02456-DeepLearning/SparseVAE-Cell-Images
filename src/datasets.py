@@ -76,14 +76,18 @@ class DSprites(Dataset):
 
 class Cell(Dataset):
     def __init__(self, dataset_path, train=True, download=False,
-                 transform=None, random_state=42, train_size=600_000,
-                 test_size=100_000):
+                 transform=None, random_state=42, train_size=.8,
+                 test_size=-1):
 
         
         self.random_state = random_state
         self.dataset_path = dataset_path
         self.train_size = train_size
         self.test_size = test_size
+
+        
+
+
         self.transform = transform
         
         # pandas uses relative path for some reason :D
@@ -105,7 +109,7 @@ class Cell(Dataset):
         
         self.targets = self.df['moa']
         self.targets = pd.factorize(self.targets)[0]
-      
+        
 
         #print(np.load(self.image_paths[0]))
         # pdb.set_trace()
@@ -122,13 +126,14 @@ class Cell(Dataset):
 
         #  = glob.glob("SparseVAE-Cell-Images/bbbc021/singlecell/singh_cp_pipeline_singlecell_images/**/*.npy", recursive=True)
     
-        
+        data_size = len(self.image_paths)
         if train:
-            self.image_paths = self.image_paths[:train_size]
-            self.targets = self.targets[:train_size]
+            self.image_paths = self.image_paths[:int(train_size*data_size)]
+            self.targets = self.targets[:int(train_size*data_size)]
         else:
-            self.image_paths = self.image_paths[-test_size:]
-            self.targets = self.targets[-test_size:]
+            self.image_paths = self.image_paths[-int((1-train_size)*data_size):]
+            self.targets = self.targets[-int((1-train_size)*data_size):]
+        
         
     def __len__(self):
         return len(self.image_paths)

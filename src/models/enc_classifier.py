@@ -29,9 +29,9 @@ class ClassifierModel(nn.Module):
         # pdb.set_trace()
         mu, logvar, logspike = self.conv_vsc.encode(x)
         
-        x = self.flatten(mu)
-        x = self.linear_final(x)
-        return x
+        y = self.flatten(mu)
+        y = self.linear_final(y)
+        return (y,)
 
     
 class ClassifierModelFull(VariationalBaseModel):
@@ -48,7 +48,12 @@ class ClassifierModelFull(VariationalBaseModel):
         self.kernel_szs = [int(ks) for ks in str(kernel_szs).split(',')]
         self.conv_vsc = ConvVSC(self.input_sz_tup, self.kernel_szs, self.hidden_sz,
                              latent_sz, **kwargs).to(device)
+<<<<<<< HEAD
         self.load_specific_model('/zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/results/checkpoints/ConvVSC_cell_1_500_204_0-0001_12.pth')
+=======
+        self.load_specific_model('/zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/results/checkpoints/ConvVSC_cell_1_481_200_0-001_420.pth')
+
+>>>>>>> b930c83e0c63d3a7d5e930a93630388039c41611
         self.model = ClassifierModel(self.conv_vsc, 13).to(device)
         self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
     
@@ -61,11 +66,19 @@ class ClassifierModelFull(VariationalBaseModel):
 
 
     # Reconstruction + KL divergence losses summed over all elements of batch
-    def loss_function(self, x, y):
+    def loss_function(self, prediction, target):
+        loss = self.loss(prediction,target)
         #pdb.set_trace()
-        #print(mean([z.argmax() for z in x]==y))
-        #print(self.accuracy(y,[z.argmax() for z in x]))
-        return self.loss(x,y)
+
+        y_hat = prediction.clone().detach().cpu().numpy()
+        y_hat = np.argmax(y_hat,axis=1)
+        y = target.clone().detach().cpu().numpy()
+        log = {
+            "loss":loss.item(),
+            "Accuracy": np.sum(y_hat == y)
+            }
+
+        return loss, log
 
     def accuracy(self, target, pred):
         # pdb.set_trace()

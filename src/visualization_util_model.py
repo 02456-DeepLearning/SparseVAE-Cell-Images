@@ -56,12 +56,16 @@ class VisualizerUtilModelFull(VariationalBaseModel):
 
         return 0
     
-    def encode_and_write(self, batch):
+    def encode_and_write(self, batch, labels):
         _,latent_reps,_,_ = self.conv_vsc.forward(batch)
         latent_reps = latent_reps.detach().cpu().numpy()
-        # pdb.set_trace()
+        labels = labels.detach().cpu().numpy()
+        # write embeddings to .tsv
         df = pd.DataFrame(latent_reps)
-        df.to_csv('test.csv')
+        df.to_csv('tsne-data/embeddings.tsv', mode='a', sep='\t',header=False,index=False)
+        # write true labels to .tsv
+        df = pd.DataFrame(labels)
+        df.to_csv('tsne-data/labels.tsv', mode='a', sep='\t',header=False,index=False)
 
 
 
@@ -96,14 +100,12 @@ if __name__ == "__main__":
     torch.cuda.manual_seed(seed)
     
 
-    idx = 0
-    # for batch_idx, (data, _) in enumerate(train_loader):
-    for batch_idx, (batch,y) in enumerate(train_loader):
+    for batch_idx, (batch,y) in enumerate(train_loader,312):
+        print(batch_idx)
+        if batch_idx > 312*1.5:
+            break
         data = visualizer.transform(batch).to(visualizer.device)
         # pdb.set_trace()
-        if idx > 0:
-            break
-        visualizer.encode_and_write(data)
-        idx += 1
+        visualizer.encode_and_write(data,y)
         # pdb.set_trace()
     
