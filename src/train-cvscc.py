@@ -14,6 +14,11 @@ if __name__ == "__main__":
                         help='should the encoder be trained')
     parser.add_argument('--use-vae-encoder', action='store_true', default=False,
                         help='should the encoder be trained')
+    parser.add_argument('--fold-number', type=int, default=1, metavar='FN',
+                        help='what fold to use for test data')
+    parser.add_argument('--encoder-model-path', type=str, default='32,32,68,68', 
+                        help='kernel sizes, separated by commas (default: 32,32,68,68)')
+
 
     args = parser.parse_args()
     print('ConvVSC classifier\n')
@@ -30,15 +35,20 @@ if __name__ == "__main__":
     #Load datasets
     train_loader, test_loader, (width, height, channels) = get_datasets(args.dataset,
                                                                         args.batch_size,
-                                                                        args.cuda)
+                                                                        args.cuda,
+                                                                        fold_number=args.fold_number)
     
     # Tune the learning rate (All training rates used were between 0.001 and 0.01)
-
     vsc = ClassifierModelFull(args.dataset, width, height, channels, 
                                   args.kernel_size, args.hidden_size, args.latent_size, 
                                   args.lr, args.alpha, device, args.log_interval,
-                                  args.normalize,flatten=False,train_encoder=args.train_encoder,
-                                  encoder_model= "Sparse_Encoder" if not args.use_vae_encoder else "Vae_Encoder")
+                                  args.normalize,
+                                  encoder_model_path= args.encoder_model_path,
+                                  model_type= f"cvscc_sparse_{args.fold_number}" if not args.use_vae_encoder else f"cvscc_variational_{args.fold_number}",
+                                  encoder_model= "Sparse_Encoder" if not args.use_vae_encoder else "Vae_Encoder",
+                                  flatten=False,
+                                  train_encoder=args.train_encoder,
+                                  )
     vsc.run_training(train_loader, test_loader, args.epochs,
                      args.report_interval, args.sample_size, 
                      reload_model=not args.do_not_resume)
