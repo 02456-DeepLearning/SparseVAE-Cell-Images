@@ -1,7 +1,7 @@
 import argparse, os
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
-from datasets import CelebA, DSprites, Cell
+from datasets import CelebA, DSprites, Cell, StratifiedCell
 
 
 def get_argparser(description):
@@ -71,12 +71,10 @@ def get_datasets(dataset, batch_size, cuda,fold_number=-1, root='../data'):
         dataset_path = '../bbbc021/singlecell/metadata.csv'
         width, height, channels = 68, 68, 3
 
-        train_loader = DataLoader(Dataset(dataset_path, train=True, download=True,
-                                      transform=transforms.ToTensor()), 
+        train_loader = DataLoader(Dataset(fold=fold_number,transform=transforms.ToTensor()), 
                               batch_size=batch_size, shuffle=True, **kwargs)
 
-        test_loader = DataLoader(Dataset(dataset_path, train=False, download=True,
-                                        transform=transforms.ToTensor()),
+        test_loader = DataLoader(Dataset(fold=fold_number,train=False,transform=transforms.ToTensor()),
                                 batch_size=batch_size, shuffle=True, **kwargs)
         
         return train_loader, test_loader, (width, height, channels)

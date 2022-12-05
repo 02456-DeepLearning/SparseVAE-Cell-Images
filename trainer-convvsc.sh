@@ -3,7 +3,7 @@
 ### –- specify queue --
 #BSUB -q gpuv100
 ### -- set the job Name --
-#BSUB -J convvsc
+#BSUB -J convvsc_fold_5
 ### -- ask for number of cores (default: 1) --
 #BSUB -n 1
 ### -- Select the resources: 1 gpu in exclusive process mode --
@@ -21,8 +21,8 @@
 #BSUB -N
 ### -- Specify the output and error file. %J is the job-id --
 ### -- -o and -e mean append, -oo and -eo mean overwrite --
-#BSUB -o convvsc_%J.out
-#BSUB -e convvsc_%J.err
+#BSUB -o convvsc_fold_5%J.out
+#BSUB -e convvsc_fold_5%J.err
 # -- end of LSF options --
 
 nvidia-smi
@@ -38,4 +38,4 @@ module load ffmpeg/4.2.2
 ### python train_psnr.py
 ### python train_esrgan.py
 source /zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/dl-env/bin/activate
-python3 /zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/src/train-convvsc.py --dataset cell --epochs 400 --report-interval 30 --lr 0.001 --latent-size 20 --hidden-size 40 --beta-delta 0.0001 --do-not-resume
+python3 /zhome/a2/4/155672/Desktop/DeepLearning/SparseVAE-Cell-Images/src/train-convvsc.py --dataset stratifiedcell --epochs 300 --report-interval 20 --lr 0.001 --latent-size 30 --hidden-size 60 --beta-delta 0.0001 --do-not-resume --fold-number=5

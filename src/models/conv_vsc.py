@@ -132,11 +132,11 @@ class ConvolutionalVariationalSparseCoding(VariationalBaseModel):
         self.model = ConvVSC(self.input_sz_tup, self.kernel_szs, self.hidden_sz,
                              latent_sz,beta_delta=beta_delta, **kwargs).to(device)
 
-        print(self.model)
         self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
         self.train_losses = []
         self.test_losses = []
     
+        print(self.model)
     
     # Reconstruction + KL divergence losses summed over all elements of batch
     def loss_function(self, x, recon_x, mu, logvar, logspike, train=False):
