@@ -209,11 +209,13 @@ class StratifiedCell(Dataset):
         self.targets = pd.factorize(self.targets)[0]
     
         if train:
-            self.image_paths = list(self.image_paths[self.train_folds[self.fold]])
-            self.targets =self.targets[self.train_folds[self.fold]]
+            self.image_paths = list(self.image_paths[np.array(self.train_folds[self.fold].iloc[:,1])])
+            self.targets = list(self.targets[np.array(self.train_folds[self.fold].iloc[:,1])])
         else:
-            self.image_paths = list(self.image_paths[self.test_folds[self.fold]])
-            self.targets = self.targets[self.test_folds[self.fold]]
+            self.image_paths = list(self.image_paths[np.array(self.test_folds[self.fold].iloc[:,1])])
+            self.targets = list(self.targets[np.array(self.test_folds[self.fold].iloc[:,1])])
+
+        
         
         
     def __len__(self):
@@ -240,6 +242,7 @@ class StratifiedCell(Dataset):
             image= np.transpose(image, (0, 1, 2)) # reshaped to channel, x, y
 
             # todo add augmentation
+            
             image = self.transform(image.astype(np.float))
 
             
