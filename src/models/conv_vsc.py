@@ -107,7 +107,11 @@ class ConvVSC(nn.Module):
         # pdb.set_trace()
         mu, logvar, logspike = self.encode(x)
         z = self.reparameterize(mu, logvar, logspike)
-        return self.decode(z), mu, logvar, logspike
+        # ! old:
+        # return self.decode(z), mu, logvar, logspike
+        
+        # ! temp:
+        return z, mu, logvar, logspike
     
     def update_c(self):
         # Gradually increase c

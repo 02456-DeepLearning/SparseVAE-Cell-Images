@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 from utils import get_datasets
 
 from models.conv_vsc import ConvVSC
+from models.conv_vae import ConvVAE
 
 from models.base_model import VariationalBaseModel
 
@@ -37,26 +38,29 @@ class VisualizerUtilModel(nn.Module):
     
 class VisualizerUtilModelFull(VariationalBaseModel):
     def __init__(self, dataset, width, height, channels, kernel_szs,
-                 hidden_sz, latent_sz, learning_rate, alpha,
+                 hl_size_1, hl_size_2, learning_rate, alpha,
                  device, log_interval, normalize, flatten, **kwargs):
-        super().__init__(dataset, width, height, channels, latent_sz,
+        hidden_size, latent_size = hl_size_1 
+        hidden_size_2, latent_size_2 = hl_size_2
+        super().__init__(dataset, width, height, channels, latent_size,
                          learning_rate, device, log_interval, normalize, 
                          flatten)
 
         self.alpha = alpha
-        self.hidden_sz = int(hidden_sz)
+        self.hidden_sz = int(hidden_size)
         self.kernel_szs = [int(ks) for ks in str(kernel_szs).split(',')]
-        self.conv_vsc = ConvVSC(self.input_sz_tup, self.kernel_szs, self.hidden_sz,
-                             latent_sz, **kwargs).to(device)
-        self.conv_vsc_2 = ConvVSC(self.input_sz_tup, self.kernel_szs, self.hidden_sz,
-                             latent_sz, **kwargs).to(device)
+        self.conv_vsc = ConvVSC(self.input_sz_tup, self.kernel_szs, hidden_size,
+                             latent_size, **kwargs).to(device)
+        self.conv_vae = ConvVAE(self.input_sz_tup, self.kernel_szs, hidden_size_2,
+                             latent_size_2, **kwargs).to(device)
         
-        MODEL_PATH = '/zhome/2b/d/156632/Desktop/deeplearning/Variational-Sparse-Coding/results/checkpoints/ConvVSC_cell_1_481_200_0-001_30.pth'
-        MODEL_PATH_2 = '/zhome/2b/d/156632/Desktop/deeplearning/Variational-Sparse-Coding/results/checkpoints/ConvVSC_cell_1_481_200_0-001_420.pth'
+        # MODEL_PATH = '/zhome/2b/d/156632/Desktop/deeplearning/Variational-Sparse-Coding/results_shared/checkpoints/convvsc_1_ConvVSC_stratifiedcell_1_300_30_0-001_300.pth'
+        MODEL_PATH = '/zhome/2b/d/156632/Desktop/deeplearning/Variational-Sparse-Coding/results_shared/checkpoints/convvsc_5_ConvVSC_stratifiedcell_1_75_200_0-001_75.pth'
+        MODEL_PATH_2 = '/zhome/2b/d/156632/Desktop/deeplearning/Variational-Sparse-Coding/results_shared/checkpoints/convvae_5_ConvVAE_stratifiedcell_1_75_200_0-001_75.pth'
         self.load_specific_model(self.conv_vsc, MODEL_PATH)
-        self.load_specific_model(self.conv_vsc_2, MODEL_PATH_2)
+        self.load_specific_model(self.conv_vae, MODEL_PATH_2)
         self.model = VisualizerUtilModel(self.conv_vsc, 13).to(device)
-        self.model_2 = VisualizerUtilModel(self.conv_vsc_2, 13).to(device)
+        self.model_2 = VisualizerUtilModel(self.conv_vae, 13).to(device)
     
     #Auxiliary function to continue training from last trained models
     def load_specific_model(self, conv_vsc, model_path, logging_func=print):
@@ -66,7 +70,7 @@ class VisualizerUtilModelFull(VariationalBaseModel):
         return 0
     
     def encode_and_write(self, batch, labels):
-        _,latent_reps,_,_ = self.conv_vsc.forward(batch)
+        z,latent_reps,_,_ = self.conv_vsc.forward(batch)
         latent_reps = latent_reps.detach().cpu().numpy()
         labels = labels.detach().cpu().numpy()
         # write embeddings to .tsv
@@ -83,7 +87,7 @@ class VisualizerUtilModelFull(VariationalBaseModel):
         reconstruction = np.moveaxis(reconstruction.cpu().numpy(),[0,1,2,3],[0,3,2,1])
         img_0_recon = reconstruction[0:3,:,:,:]
 
-        reconstruction_2,_,_,_ = self.conv_vsc_2.forward(batch)
+        reconstruction_2,_,_ = self.conv_vae.forward(batch)
         reconstruction_2 = np.moveaxis(reconstruction_2.cpu().numpy(),[0,1,2,3],[0,3,2,1])
         img_0_recon_2 = reconstruction_2[0:3,:,:,:]
 
@@ -115,8 +119,17 @@ if __name__ == "__main__":
     dataset = "cell"
     epochs = 200
     kernel_size = '32,32,68,68' # parameters
+
+    # SCVAE parameters
     hidden_size = 400
     latent_size = 200
+    hl_size_1 = (hidden_size, latent_size)
+
+    # CVAE parameters
+    hidden_size_2 = 400
+    latent_size_2 = 200
+    hl_size_2 = (hidden_size_2, latent_size_2)
+
     learning_rate = 0.001
     device = torch.device('cuda')
     alpha = 0.5 ## DEFAULT
@@ -131,7 +144,7 @@ if __name__ == "__main__":
                                                                         device)
 
     visualizer = VisualizerUtilModelFull(dataset, width, height, channels, 
-                                  kernel_size, hidden_size, latent_size, learning_rate,
+                                  kernel_size, hl_size_1, hl_size_2, learning_rate,
                                   alpha, device, log_interval, normalize, flatten)
     
     #Set reproducibility seed
