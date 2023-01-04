@@ -1,3 +1,9 @@
+################################################################################################################
+### Based on the codebase from the ICLR 2019 Reproducibility Challenge entry for "Variational Sparse Coding" ###
+#################### Link to repository: https://github.com/Alfo5123/Variational-Sparse-Coding #################
+####################### Credits to Alfredo de la Fuente Briceño - See also LICENSE file ########################
+################################################################################################################
+
 import numpy as np
 import torch
 from torch import nn, optim
