@@ -63,6 +63,12 @@ To visualize training results in TensorBoard, we can use the following command f
 $ tensorboard --logdir='./logs' --port=6006
 ```
 
+To visualise the effect of latent dimensions use the following command
+
+```
+python3 src/sliders.py
+```
+
 
 ## License
 [MIT License](https://github.com/Alfo5123/Variational-Sparse-Coding/blob/master/LICENSE)
