@@ -206,7 +206,8 @@ class StratifiedCell(Dataset):
         self.image_paths = [helper_fn(x,y) for x,y in zip(self.df['Multi_Cell_Image_Name'], self.df['Single_Cell_Image_Name'])]
         self.image_paths = np.array(self.image_paths)
         self.targets = self.df['moa']
-        self.targets = pd.factorize(self.targets)[0]
+        self.targets, labels = pd.factorize(self.targets)
+        
     
         if train:
             self.image_paths = list(self.image_paths[np.array(self.train_folds[self.fold].iloc[:,1])])
@@ -215,8 +216,9 @@ class StratifiedCell(Dataset):
             self.image_paths = list(self.image_paths[np.array(self.test_folds[self.fold].iloc[:,1])])
             self.targets = list(self.targets[np.array(self.test_folds[self.fold].iloc[:,1])])
 
-        
-        
+        print('StratifiedCell image_path size', len(self.image_paths))
+        print('StratifiedCell targets size', len(self.targets))
+
         
     def __len__(self):
         return len(self.image_paths)

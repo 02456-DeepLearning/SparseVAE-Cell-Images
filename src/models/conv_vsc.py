@@ -107,7 +107,13 @@ class ConvVSC(nn.Module):
         # pdb.set_trace()
         mu, logvar, logspike = self.encode(x)
         z = self.reparameterize(mu, logvar, logspike)
+        np.savetxt('testz.out', z.cpu().detach().numpy(), delimiter=',') 
+        exit()
+        # old:
         return self.decode(z), mu, logvar, logspike
+        
+        # temp:
+        #return z, mu, logvar, logspike
     
     def update_c(self):
         # Gradually increase c
@@ -154,7 +160,7 @@ class ConvolutionalVariationalSparseCoding(VariationalBaseModel):
         prior22 = spike.mul(torch.log(spike / self.alpha))
         prior2 = torch.sum(prior21 + prior22)
         PRIOR = prior1 + prior2
-
+        #pdb.set_trace()
         LOSS = BCE + self.model.beta * PRIOR
         log = {
             'LOSS': LOSS.item(),

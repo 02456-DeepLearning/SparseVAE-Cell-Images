@@ -10,6 +10,7 @@ class Logger(object):
         
         self.train_writer = tf.summary.create_file_writer(log_dir + "/train")
         self.test_writer = tf.summary.create_file_writer(log_dir + "/eval")
+        print(f"Logs are written to {log_dir}")
 
         self.loss = tf.Variable(0.0)
         tf.summary.scalar("loss", self.loss)
@@ -20,17 +21,17 @@ class Logger(object):
         # self.session.run(tf.compat.v1.global_variables_initializer())
 
 
-    def scalar_summary(self, train_loss, test_loss, epoch, logs):
+    def scalar_summary(self, train_loss, test_loss, epoch, train_logs,test_logs):
         """Log a scalar variable."""
 
         # summary = self.session.run(self.merged, {self.loss: train_loss})
         # self.train_writer.add_summary(summary, step) 
         # pdb.set_trace()
-        print('saving logs', logs, epoch)
+        print('saving logs', epoch,train_logs, test_logs)
         with self.train_writer.as_default():
             tf.summary.scalar(name='train loss', step=epoch, data=train_loss)
 
-            for key, value in logs.items():
+            for key, value in train_logs.items():
                 tf.summary.scalar(name=key, step=epoch, data=value)
             
             self.train_writer.flush()
@@ -41,7 +42,7 @@ class Logger(object):
         with self.test_writer.as_default():
             tf.summary.scalar(name='test loss', step=epoch, data=test_loss)
 
-            for key, value in logs.items():
+            for key, value in test_logs.items():
                 tf.summary.scalar(name=key, step=epoch, data=value)
 
             self.test_writer.flush()

@@ -114,3 +114,16 @@ venv.bak/
 
 
 results/
+datasplit/
+old_data/
+results75/
+datasplit/test_fold_1.csv
+datasplit/test_fold_2.csv
+datasplit/test_fold_3.csv
+datasplit/test_fold_4.csv
+datasplit/test_fold_5.csv
+datasplit/train_fold_1.csv
+datasplit/train_fold_2.csv
+datasplit/train_fold_3.csv
+datasplit/train_fold_4.csv
+datasplit/train_fold_5.csv

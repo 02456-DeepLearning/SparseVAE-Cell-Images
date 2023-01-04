@@ -6,7 +6,7 @@ from models.enc_classifier import ClassifierModelFull
 
 if __name__ == "__main__":    
     parser = get_argparser('ConvVSC Example')
-    parser.add_argument('--alpha', default=0.2, type=float, metavar='A', 
+    parser.add_argument('--alpha', default=0.15, type=float, metavar='A', 
                     help='value of spike variable (default: 0.2')
     parser.add_argument('--beta-delta', default=0, type=float, metavar='betadelta', 
                     help='beta delta (default: 0')
@@ -26,6 +26,8 @@ if __name__ == "__main__":
     device = torch.device('cuda' if args.cuda else 'cpu')
     print(f'Using {device} device...')
     
+    print('ALPHA value: ', args.alpha)
+
     #Load datasets
     train_loader, test_loader, (width, height, channels) = get_datasets(args.dataset,
                                                                         args.batch_size,

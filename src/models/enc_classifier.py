@@ -29,14 +29,13 @@ class ClassifierModel(nn.Module):
 
       
     def forward(self, x):
-        # pdb.set_trace()
         output = self.conv_vsc.encode(x)
         
         y = self.flatten(output[0])
         y = self.linear_final(y)
         return (y,)
 
-    
+
 class ClassifierModelFull(VariationalBaseModel):
     def __init__(self, dataset, width, height, channels, kernel_szs,
                  hidden_sz, latent_sz, learning_rate, alpha,
@@ -49,7 +48,7 @@ class ClassifierModelFull(VariationalBaseModel):
         self.alpha = alpha
         self.hidden_sz = int(hidden_sz)
         self.kernel_szs = [int(ks) for ks in str(kernel_szs).split(',')]
-
+        
         if encoder_model == "Sparse_Encoder":
             self.conv_vsc = ConvVSC(self.input_sz_tup, self.kernel_szs, self.hidden_sz,
                              latent_sz, **kwargs).to(device)
@@ -59,8 +58,13 @@ class ClassifierModelFull(VariationalBaseModel):
         else:
             print("encoder_model type not recognized")
 
+
         self.load_specific_model(encoder_model_path)
+
         self.model = ClassifierModel(self.conv_vsc, 13, train_encoder=train_encoder).to(device)
+        self.model.load_state_dict(torch.load('./results75/checkpoints/cvscc_sparse_1_ClassifierModel_stratifiedcell_1_6_200_0-001_6.pth'))
+        
+        np.savetxt('test.out', self.model.linear_final.weight.cpu().detach().numpy(), delimiter=',') 
         self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
 
         print(f"Classifier model created using a {encoder_model}, from path {encoder_model_path}")
@@ -95,4 +99,5 @@ class ClassifierModelFull(VariationalBaseModel):
         pred = np.array([ts.detach().cpu().numpy() for ts in pred])
         return metrics.accuracy_score(target.detach().cpu().numpy(), 
                                         pred)
-        
+    def update_(self):
+        pass

@@ -116,6 +116,8 @@ class ConvolutionalVariationalAutoEncoder(VariationalBaseModel):
         self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
         self.train_losses = []
         self.test_losses = []
+
+        print(self.model)
     
     
     # Reconstruction + KL divergence losses summed over all elements of batch

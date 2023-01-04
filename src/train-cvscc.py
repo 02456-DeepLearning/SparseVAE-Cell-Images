@@ -13,7 +13,7 @@ if __name__ == "__main__":
     parser.add_argument('--train-encoder', action='store_true', default=False,
                         help='should the encoder be trained')
     parser.add_argument('--use-vae-encoder', action='store_true', default=False,
-                        help='should the encoder be trained')
+                        help='use vae encoder')
     parser.add_argument('--fold-number', type=int, default=1, metavar='FN',
                         help='what fold to use for test data')
     parser.add_argument('--encoder-model-path', type=str, default='32,32,68,68', 
@@ -23,6 +23,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print('ConvVSC classifier\n')
     args.cuda = not args.no_cuda and torch.cuda.is_available()
+    
 
     #Set reproducibility seed
     torch.manual_seed(args.seed)
@@ -51,5 +52,5 @@ if __name__ == "__main__":
                                   )
     vsc.run_training(train_loader, test_loader, args.epochs,
                      args.report_interval, args.sample_size, 
-                     reload_model=not args.do_not_resume)
+                     reload_model=not args.do_not_resume, print_acc=True)
     

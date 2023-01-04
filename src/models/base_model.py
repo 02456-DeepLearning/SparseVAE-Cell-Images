@@ -42,7 +42,7 @@ class VariationalBaseModel():
         if train:
             self.optimizer.zero_grad()
         output = self.model(data)
-        
+        #pdb.set_trace()
         if len(output) == 3: # VAE
             loss, log = self.loss_function(data, output[0], output[1], output[2])
         elif len(output) == 4: # Sparse VAE
@@ -55,6 +55,7 @@ class VariationalBaseModel():
             loss.backward()
             self.optimizer.step()
 
+        
         return loss.item(), log
     
     # TODO: Perform transformations inside DataLoader (extend datasets.MNIST)
@@ -89,7 +90,7 @@ class VariationalBaseModel():
     
     
     # Run training iterations and report results
-    def train(self, train_loader, epoch, logging_func=print):
+    def train(self, train_loader, epoch, logging_func=print, print_acc = False):
         self.model.train()
         train_loss = 0
 
@@ -105,11 +106,19 @@ class VariationalBaseModel():
                 logs[key] += value
             
             if batch_idx % self.log_interval == 0:
-                logging_func('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}' \
-                      .format(epoch, batch_idx * len(data), 
-                              len(train_loader.dataset),
-                              100. * batch_idx / len(train_loader),
-                              loss / len(data)))
+                if not print_acc:
+                    logging_func('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}' \
+                        .format(epoch, batch_idx * len(data), 
+                                len(train_loader.dataset),
+                                100. * batch_idx / len(train_loader),
+                                loss / len(data)))
+                else:
+                    logging_func('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f} \tAcc: {:.6f}' \
+                        .format(epoch, batch_idx * len(data), 
+                                len(train_loader.dataset),
+                                100. * batch_idx / len(train_loader),
+                                loss / len(data),
+                                log['Accuracy'] / len(data)))           
 
         logging_func('====> Epoch: {} Average loss: {:.4f}'.format(
               epoch, train_loss / len(train_loader.dataset)))
@@ -160,7 +169,7 @@ class VariationalBaseModel():
         for f in models:
             # modelname_dataset_startepoch_epochs_latentsize_lr_epoch
             run_name = Path(f).stem
-            model_name, dataset, _, _, latent_sz, _, epoch = run_name.split('_')
+            model_type,fold,model_name, dataset, _, _, latent_sz, _, epoch = run_name.split('_')
             if model_name == name and dataset == self.dataset and \
                int(latent_sz) == self.latent_sz:
                 model_ids.append((int(epoch), f))
@@ -175,7 +184,7 @@ class VariationalBaseModel():
         logging_func('Last checkpoint: ', last_checkpoint)
         self.model.load_state_dict(torch.load(last_checkpoint))
         logging_func(f'Loading {name} model from last checkpoint ({start_epoch})...')
-
+        print(last_checkpoint)
         return start_epoch + 1
     
     
@@ -185,10 +194,10 @@ class VariationalBaseModel():
     
     def run_training(self, train_loader, test_loader, epochs, 
                      report_interval, sample_sz=64, reload_model=True,
-                     checkpoints_path='./results/checkpoints',
-                     logs_path='./results/logs',
-                     images_path='./results/images',
-                     logging_func=print, start_epoch=None):
+                     checkpoints_path='./results75/checkpoints',
+                     logs_path='./results75/logs',
+                     images_path='./results75/images',
+                     logging_func=print, start_epoch=None, print_acc=False):
         
         if self.normalize_data:
             self.calculate_scaling_factor(train_loader)
@@ -201,13 +210,15 @@ class VariationalBaseModel():
                    f'{self.latent_sz}_{str(self.lr).replace(".", "-")}'
         logger = Logger(f'{logs_path}/{run_name}')
         logging_func(f'Training {name} model...')
+        logging_func(f'Saving to {checkpoints_path}/{run_name}...')
         for epoch in range(start_epoch, start_epoch + epochs):
-            train_loss, logs = self.train(train_loader, epoch, logging_func)
-            test_loss, logs = self.test(test_loader, epoch, logging_func)
-            print(logs)
+            train_loss, train_logs = self.train(train_loader, epoch, logging_func, print_acc=print_acc)
+            test_loss, test_logs = self.test(test_loader, epoch, logging_func)
+            print(train_logs)
+            print(test_logs)
             # Store log
             # pdb.set_trace()
-            logger.scalar_summary(train_loss, test_loss, epoch, logs)
+            logger.scalar_summary(train_loss, test_loss, epoch, train_logs,test_logs)
             # Optional update
             self.update_()
             # For each report interval store model and save images
@@ -215,14 +226,15 @@ class VariationalBaseModel():
                 with torch.no_grad():
 
                     ## Generate random samples
-                    sample = torch.randn(sample_sz, self.latent_sz) \
-                                  .to(self.device)
-                    sample = self.model.decode(sample).cpu()
-                    sample = self.inverse_transform(sample)
-                    ## Store sample plots
-                    save_image(sample.view(sample_sz, self.channels, self.height,
-                                           self.width),
-                               f'{images_path}/sample_{run_name}_{epoch}.png')
+                    if not print_acc:
+                        sample = torch.randn(sample_sz, self.latent_sz) \
+                                      .to(self.device)
+                        sample = self.model.decode(sample).cpu()
+                        sample = self.inverse_transform(sample)
+                        ## Store sample plots
+                        save_image(sample.view(sample_sz, self.channels, self.height,
+                                               self.width),
+                                   f'{images_path}/sample_{run_name}_{epoch}.png')
                     ## Store Model
                     torch.save(self.model.state_dict(), 
                                f'{checkpoints_path}/{run_name}_{epoch}.pth')
