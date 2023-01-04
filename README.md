@@ -1,4 +1,4 @@
-# VGENERATIVE MODELLING FOR PHENOTYPIC PROFILING
+# GENERATIVE MODELLING FOR PHENOTYPIC PROFILING
 
 ## Description 
 The following git repo contains the project code for 02456 Deep learning 2022. The code is originally from  [Variational-Sparse-Coding](https://github.com/Alfo5123/Variational-Sparse-Coding). The code as been modified for use in the course. To see changes from original code repository look at git commits. The code has been altered by the following authors.
